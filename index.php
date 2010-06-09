@@ -61,13 +61,13 @@ session_start();
 			}
 		</style>
 		
-		<script src="jquery.js" type="text/javascript"></script>
+		<script src="js/jquery.js" type="text/javascript"></script>
 
-		<script src="jquery.easing.js" type="text/javascript"></script>
-		<script src="jqueryFileTree.js" type="text/javascript"></script>
-		<script src='jquery.simplemodal.js' type='text/javascript'></script>
-		<script type="text/javascript" src="ajaxfileupload.js"></script>
-		<link href="jqueryFileTree.css" rel="stylesheet" type="text/css" media="screen" />
+		<script src="js/jquery.easing.js" type="text/javascript"></script>
+		<script src="js/jqueryFileTree.js" type="text/javascript"></script>
+		<script src='js/jquery.simplemodal.js' type='text/javascript'></script>
+		<script type="text/javascript" src="js/ajaxfileupload.js"></script>
+		<link href="css/jqueryFileTree.css" rel="stylesheet" type="text/css" media="screen" />
 		<link type='text/css' href='css/basic.css' rel='stylesheet' media='screen' />
 		
 
@@ -212,7 +212,7 @@ session_start();
 				<input type="button" name="submit" id="submit" value="enviar" onclick="return ajaxFileUpload();" />
 				<input type="hidden" name="filename" id="filename" value="abc"/>
 			</form>
-			<img id="loading" src="loading.gif" style="display:none;">
+			<img id="loading" src="images/loading.gif" style="display:none;">
 			<p>Para sacar a legenda que este avi possa ter, seguir este link: <span id='download'></span> </p>
 		</div>
 
