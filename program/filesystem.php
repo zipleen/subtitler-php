@@ -177,37 +177,6 @@ class filesystem{
 	}
 	
 	/**
-	 * imprime os ficheiros de uma directoria em <ul> <li> - isto foi feito para o jqueryFileTree
-	 * 
-	 * @param string $dir
-	 * @return string
-	 */
-	public function getFileTreeInUL($dir)
-	{
-		$files = $this->getFileTree($dir);
-		$this->debug->logArray(__METHOD__."() got these files!", $files);
-		$html = '';
-		if( count($files) > 0 ) 
-		{ 
-			
-			$html .= "<ul class=\"jqueryFileTree\" style=\"display: none;\">";
-			foreach($files as $t=>$opc)
-			{
-				if($opc['tipo']=="dir")
-				{
-					$html .= "<li class=\"directory collapsed\"><a href=\"#\" rel=\"" . htmlentities($opc['filename'], ENT_QUOTES, 'UTF-8') . "/\">" . htmlentities($opc['nome'], ENT_QUOTES, 'UTF-8') . "</a></li>";
-				}
-				if($opc['tipo']=="file")
-				{
-					$html .= "<li class=\"".$opc['class']."\"><a href=\"#\" rel=\"" . htmlentities($opc['filename'], ENT_QUOTES, 'UTF-8') . "\">" . htmlentities($opc['nome'], ENT_QUOTES, 'UTF-8') . "</a></li>";
-				}
-			}
-			$html .= "</ul>";
-		}	
-		return $html;
-	}
-	
-	/**
 	 * cria um array com o conteudo do directorio
 	 * 
 	 * @param string $dir
@@ -248,7 +217,7 @@ class filesystem{
 						if( in_array(strtolower($ext), $this->supported_files) )
 						{
 							$subtitle = substr($file,0,-3)."srt";
-							if(file_exists($this->pasta . $dir . $subtitle))
+							if(is_file($this->pasta . $dir . $subtitle))
 								$subtitle_existe = "tem";
 							else $subtitle_existe = "n_tem";
 							$array = array();
@@ -263,6 +232,45 @@ class filesystem{
 			}		
 		}
 		return $data;
+	}
+	
+	/**
+	 * devolve um array de ficheiros que foram adicionados/modificados nos ultimos 15 dias que NAO TEM legendas!
+	 * 
+	 */
+	public function getLastModifiedFiles()
+	{
+		$output = '';
+		$array = array();
+		
+		exec('find '.$this->pasta.' -type f -mtime -15 \( -name "*.avi" -o -name "*.mkv" \)', $output);
+		foreach($output as $linha)
+		{
+			// vamos agora testar cada file se tem um srt!
+			if(is_file($linha))
+			{
+				$subtitle = substr($linha,0,-3)."srt";
+				if(is_file($subtitle))
+				{
+					// temos srt!
+					$this->debug->log(__METHOD__."() found srt for file $linha !");
+				}
+				else
+				{
+					// nao temos o srt!
+					$fi = substr($linha, strlen($this->pasta));
+					$this->debug->log(__METHOD__."() file does not have srt ! adding $fi !");
+					$array[] = $fi;
+				}
+			}
+			else
+			{
+				// ignorado
+				$this->debug->log(__METHOD__."() ignorando $linha ...");
+			}
+		}
+		
+		return $array;
 	}
 }
 ?>

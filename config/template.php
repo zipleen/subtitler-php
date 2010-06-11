@@ -75,6 +75,13 @@ $core = core::getInstance();
 <![endif]-->
 
 		<script type="text/javascript">
+			function makeDownload(file)
+			{
+				$('#nome_file')[0].innerHTML = file;
+				document.getElementById('download').innerHTML="<a href='index.php?op=getsubtitle&file="+file+"'> sacar </a>";
+				$('#legenda :hidden')[0].value = file;
+				$('#basicModalContent').modal();
+			}
 			
 			$(document).ready( function() {
 				
@@ -86,6 +93,10 @@ $core = core::getInstance();
 						$('#legenda :hidden')[0].value = file;
 						$('#basicModalContent').modal();
 						//alert(file);
+					});
+
+				$.post('index.php?op=getLastModifiedFilesInHtml', function(data) {
+					  $('.lastmodified').html(data);
 					});
 				
 				/*$('#fileTreeDemo_2').fileTree({ root: 'demo/', script: 'jqueryFileTree.php', folderEvent: 'click', expandSpeed: 750, collapseSpeed: 750, multiFolder: false }, function(file) { 
@@ -163,6 +174,11 @@ $core = core::getInstance();
 		<div style="clear:both; margin-left: 200px; padding-top: 20px;";>
 		<p style='color:#FF3333'>A vermelho encontram-se os ficheiros SEM legendas.</p>
 		<p style='color:#00FF66'>A verde encontram-se os ficheiros que já tem legendas</p>
+		</div>
+
+		<div style="clear:both; margin-left: 200px; padding-top: 20px;">
+			Ficheiros dos últimos 15 dias que precisam de legendas
+			<div id='lastmodified'><img src='images/spinner.gif'></img> Loading...</div>
 		</div>
 
 		<div id="basicModalContent" style='display:none'>

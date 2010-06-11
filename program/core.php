@@ -163,6 +163,60 @@ class core{
 	}
 
 	/**
+	 * imprime os ficheiros de uma directoria em <ul> <li> - isto foi feito para o jqueryFileTree
+	 * 
+	 * @param string $dir
+	 * @return string
+	 */
+	public function getFileTreeInUL($dir)
+	{
+		$files = $this->filesystem->getFileTree($dir);
+		$this->debug->logArray(__METHOD__."() got these files!", $files);
+		$html = '';
+		if( count($files) > 0 ) 
+		{ 
+			
+			$html .= "<ul class=\"jqueryFileTree\" style=\"display: none;\">";
+			foreach($files as $t=>$opc)
+			{
+				if($opc['tipo']=="dir")
+				{
+					$html .= "<li class=\"directory collapsed\"><a href=\"#\" rel=\"" . htmlentities($opc['filename'], ENT_QUOTES, 'UTF-8') . "/\">" . htmlentities($opc['nome'], ENT_QUOTES, 'UTF-8') . "</a></li>";
+				}
+				if($opc['tipo']=="file")
+				{
+					$html .= "<li class=\"".$opc['class']."\"><a href=\"#\" rel=\"" . htmlentities($opc['filename'], ENT_QUOTES, 'UTF-8') . "\">" . htmlentities($opc['nome'], ENT_QUOTES, 'UTF-8') . "</a></li>";
+				}
+			}
+			$html .= "</ul>";
+		}	
+		return $html;
+	}
+	
+	/**
+	 * Cria um conjunto de links html com os ultimos ficheiros que ainda nao tem legendas!
+	 * 
+	 * @return string
+	 */
+	public function getLastModifiedFilesInHtml()
+	{
+		$html = '';
+		$array = $this->getLastModifiedFiles();
+		if(count($array)>0)
+		{
+			foreach($array as $f)
+			{
+				$html .= "<a href='#' onclick='makeDownload(\"$f\")'>".substr($f, strrpos("/"))."</a><br/>";
+			}
+		}
+		else
+		{
+			$html = "N&atilde;o h&aacute; ficheiros nos &uacute;ltimos 15 dias que n&atilde;o tenham legendas! fixe.";
+		}
+		return $html;
+	}
+	
+	/**
 	 * faz o redirect para a pagina "anterior", ou se nao viemos da pagina em questao, faz redirect para o script principal
 	 * 
 	 */
@@ -189,9 +243,13 @@ class core{
 		$this->debug->log(__METHOD__."() action: $op");
 		switch($op)
 		{
+			case 'getLastModifiedFilesInHtml':
+				$answer = $this->getLastModifiedFilesInHtml();
+				break;
+			
 			case 'getFileTree':
 				if(isSet($_REQUEST['dir']))
-					$answer = $this->filesystem->getFileTreeInUL($_REQUEST['dir']);
+					$answer = $this->getFileTreeInUL($_REQUEST['dir']);
 				else
 					$answer = "nao esta definida a directoria para processar!";
 				break;
