@@ -134,7 +134,8 @@ class core{
 	{
 		if( isSet($this->config[$name]) )
 		{
-			$_SESSION['pasta'] = $this->pasta_selecionada;
+			$_SESSION['pasta'] = $name;
+			$this->debug->log(__METHOD__."() setting pasta para ".$_SESSION['pasta']);
 			session_write_close(); // parece que nao estava a gravar a sessao, vamos forcar isto
 			$this->redirectBack();
 		}
