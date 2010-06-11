@@ -147,9 +147,9 @@ class unpack{
         foreach ($files as $item) 
         {
             if ($item == '.' || $item == '..') continue;
-            if(is_dir($item))
+            if(is_dir($dir .DIRECTORY_SEPARATOR. $item))
             {
-            	$ret = $this->findFileInDirectoryExactMatch($item, $filelower);
+            	$ret = $this->findFileInDirectoryExactMatch($dir .DIRECTORY_SEPARATOR. $item, $filelower);
             	if($ret!==false)	
             		return $ret;
             }
@@ -182,9 +182,9 @@ class unpack{
         {
         	if ($item == '.' || $item == '..') continue;
         	
-        	if(is_dir($item))
+        	if(is_dir($dir .DIRECTORY_SEPARATOR. $item))
             {
-            	$ret = $this->findFileInDirectoryTypeMatch($item, $filelower, $hd);
+            	$ret = $this->findFileInDirectoryTypeMatch($dir .DIRECTORY_SEPARATOR. $item, $filelower, $hd);
             	if($ret!==false)	
             		return $ret;
             }
@@ -231,11 +231,11 @@ class unpack{
 		$files = scandir($dir);
 		foreach ($files as $item) 
         {
-        	if ($item == '.' || $item == '..') continue;
-        	if(is_dir($item))
-            {
-            	$ret = $this->findFileInDirectoryFirstSRT($item, $filelower);
-            	if($ret!==false)	
+			if ($item == '.' || $item == '..') continue;
+			if(is_dir($dir .DIRECTORY_SEPARATOR. $item))
+			{
+				$ret = $this->findFileInDirectoryFirstSRT($dir .DIRECTORY_SEPARATOR. $item, $filelower);
+				if($ret!==false)	
             		return $ret;
             }
             else
