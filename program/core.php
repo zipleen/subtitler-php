@@ -67,10 +67,12 @@ class core{
 		// ir buscar os valores que devem estar na sessao
 		if( isSet($_SESSION['pasta']) && isSet($this->config[$_SESSION['pasta']]) )
 		{
+			$this->debug->log(__METHOD__."() existe a pasta! setting to: ".$_SESSION['pasta']);
 			$this->pasta_selecionada = $_SESSION['pasta'];
 		}
 		else
 		{
+			$this->debug->log(__METHOD__."() first time setting pasta! -> ".$primeira_pasta);
 			$this->pasta_selecionada = $primeira_pasta;
 		}
 		
@@ -133,6 +135,7 @@ class core{
 		if( isSet($this->config[$name]) )
 		{
 			$_SESSION['pasta'] = $this->pasta_selecionada;
+			session_write_close(); // parece que nao estava a gravar a sessao, vamos forcar isto
 			$this->redirectBack();
 		}
 		else
@@ -166,6 +169,7 @@ class core{
 	{
 		$answer = '';
 		$op = $_REQUEST['op'];
+		$this->debug->log(__METHOD__."() action: $op");
 		switch($op)
 		{
 			case 'getFileTree':
