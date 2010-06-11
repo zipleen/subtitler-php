@@ -150,9 +150,10 @@ $core = core::getInstance();
 	
 	<body>
 		
-		<h1>legendador de <?=$core->getCurrentName()?></h1>
+		<h1>Meter legendas na pasta <?=$core->getCurrentName()?></h1>
 
-<h2> Mudar legendas para: <?=$core->getLinksForDirectories()?></h2>
+		<h2> Mudar legendas para... </h2>
+		<h3> <?=$core->getLinksForDirectories()?></h3>
 
 		<div class="example">
 
