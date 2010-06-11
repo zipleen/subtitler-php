@@ -64,14 +64,21 @@ class core{
 			die("Configure o ficheiro config/cnf.php !!");
 		}
 		
-		// ir buscar os valores que devem estar na sessao
-		if( isSet($_SESSION['pasta']) && isSet($this->config[$_SESSION['pasta']]) )
+		// primeiro verificar se temos um REQUEST para a "pasta"
+		if( isSet($_REQUEST['pasta']) && isSet($this->config[$_REQUEST['pasta']]) )
 		{
+			$this->debug->log(__METHOD__."() foi pedido uma pasta diferente logo no request que existe! -> ".$_REQUEST['pasta']);
+			$this->pasta_selecionada = $_REQUEST['pasta'];
+		}
+		elseif( isSet($_SESSION['pasta']) && isSet($this->config[$_SESSION['pasta']]) )
+		{
+			// ir buscar os valores que devem estar na sessao
 			$this->debug->log(__METHOD__."() existe a pasta! setting to: ".$_SESSION['pasta']);
 			$this->pasta_selecionada = $_SESSION['pasta'];
 		}
 		else
 		{
+			// default!
 			$this->debug->log(__METHOD__."() first time setting pasta! -> ".$primeira_pasta);
 			$this->pasta_selecionada = $primeira_pasta;
 		}
@@ -115,7 +122,7 @@ class core{
 			if($tipo==$this->pasta_selecionada)
 				$html .= "<span class='active'>$nome</span>".$separator;
 			else
-				$html .= "<a href='index.php?op=changedir&tipo=$tipo'>$nome</a>".$separator;
+				$html .= "<a href='index.php?op=changedir&pasta=$tipo'>$nome</a>".$separator;
 		}
 		return $html;
 	}
@@ -174,7 +181,10 @@ class core{
 		switch($op)
 		{
 			case 'getFileTree':
-				$answer = $this->filesystem->getFileTree($_REQUEST['dir']);
+				if(isSet($_REQUEST['dir']))
+					$answer = $this->filesystem->getFileTreeInUL($_REQUEST['dir']);
+				else
+					$answer = "nao esta definida a directoria para processar!";
 				break;
 			
 			case 'getsubtitle':
@@ -192,7 +202,7 @@ class core{
 				break;
 			
 			case 'changedir':
-				$this->changeDirectory($_REQUEST['tipo']);
+				$this->changeDirectory($_REQUEST['pasta']);
 				break;
 				
 			default:

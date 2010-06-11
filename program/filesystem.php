@@ -56,7 +56,8 @@ class filesystem{
 
 		// $_FILES[$form_name]['name'] = original name
 		
-		if(is_writable($dir)){
+		if(is_writable($dir))
+		{
 			if(move_uploaded_file($_FILES[$form_name]['tmp_name'], $to))
 			{
 				$this->debug->log(__METHOD__."() Consegui escrever o file para $to!");
@@ -85,8 +86,10 @@ class filesystem{
 		
 		$filename = $this->cleanFilename($filename);
 		
-		if( $filename!="" && $_FILES[$form_name]['size']<=300000 && $_FILES[$form_name]['error']==0){
-			if( file_exists($this->pasta . $filename) ) {
+		if( $filename!="" && $_FILES[$form_name]['size']<=300000 && $_FILES[$form_name]['error']==0)
+		{
+			if( file_exists($this->pasta . $filename) ) 
+			{
 				// ficheiro que vai ser o novo subtitle
 				$subtitle = substr($filename,0,-3)."srt";
 			
@@ -138,39 +141,85 @@ class filesystem{
 	 * @param string $dir
 	 * @return string
 	 */
+	public function getFileTreeInUL($dir)
+	{
+		$files = $this->getFileTree($dir);
+		
+		$html = '';
+		if( count($files) > 2 ) 
+		{ 
+			
+			$html .= "<ul class=\"jqueryFileTree\" style=\"display: none;\">";
+			foreach($files as $t=>$opc)
+			{
+				if($opc['tipo']=="dir")
+				{
+					$html .= "<li class=\"directory collapsed\"><a href=\"#\" rel=\"" . htmlentities($opc['filename']) . "/\">" . htmlentities($opc['nome']) . "</a></li>";
+				}
+				if($opc['tipo']=="file")
+				{
+					$html .= "<li class=\"".$opc['class']."\"><a href=\"#\" rel=\"" . htmlentities($opc['filename']) . "\">" . htmlentities($opc['nome']) . "</a></li>";
+				}
+			}
+			$html .= "</ul>";
+		}	
+		return $html;
+	}
+	
+	/**
+	 * cria um array com o conteudo do directorio
+	 * 
+	 * @param string $dir
+	 * @return array
+	 */
 	public function getFileTree($dir)
 	{
-		$html = '';
+		$data = array();
+		$i = 0;
 		$dir = $this->cleanFilename($dir);
 		
-		if( file_exists($this->pasta . $dir) ) {
+		if( file_exists($this->pasta . $dir) ) 
+		{
 			$files = scandir($this->pasta . $dir);
 			natcasesort($files);
-			if( count($files) > 2 ) { /* The 2 accounts for . and .. */
-				$html .= "<ul class=\"jqueryFileTree\" style=\"display: none;\">";
-				// All dirs
-				foreach( $files as $file ) {
-					if( file_exists($this->pasta . $dir . $file) && $file != '.' && $file != '..' && $file != '.AppleDouble' && is_dir($this->pasta . $dir . $file) ) {
-						$html .= "<li class=\"directory collapsed\"><a href=\"#\" rel=\"" . htmlentities($dir . $file) . "/\">" . htmlentities($file) . "</a></li>";
-					}
+			
+			// All dirs
+			foreach( $files as $file ) 
+			{
+				/* The 2 accounts for . and .. */
+				if( file_exists($this->pasta . $dir . $file) && $file != '.' && $file != '..' && $file != '.AppleDouble' && is_dir($this->pasta . $dir . $file) ) 
+				{
+					$array = array();
+					$array['tipo'] = "dir";
+					$array['filename'] = $dir . $file;
+					$array['nome'] = $file;
+					$data[$i++] = $array;
 				}
-				// All files
-				foreach( $files as $file ) {
-					if( file_exists($this->pasta . $dir . $file) && $file != '.' && $file != '..' && !is_dir($this->pasta . $dir . $file) ) {
-						$ext = preg_replace('/^.*\./', '', $file);
-						if($ext=="avi" || $ext=="mkv" || $ext=="mpg" || $ext=="mp4"){
-							$subtitle = substr($file,0,-3)."srt";
-							if(file_exists($this->pasta . $dir . $subtitle))
-								$subtitle_existe = "tem";
-							else $subtitle_existe = "n_tem";
-							$html .= "<li class=\"file ext_$ext $subtitle_existe\"><a href=\"#\" rel=\"" . htmlentities($dir . $file) . "\">" . htmlentities($file) . "</a></li>";
-						}
-					}
-				}
-				$html .= "</ul>";	
 			}
+			// All files
+			foreach( $files as $file ) 
+			{
+				if( file_exists($this->pasta . $dir . $file) && $file != '.' && $file != '..' && !is_dir($this->pasta . $dir . $file) ) 
+				{
+					$ext = preg_replace('/^.*\./', '', $file);
+					if($ext=="avi" || $ext=="mkv" || $ext=="mpg" || $ext=="mp4")
+					{
+						$subtitle = substr($file,0,-3)."srt";
+						if(file_exists($this->pasta . $dir . $subtitle))
+							$subtitle_existe = "tem";
+						else $subtitle_existe = "n_tem";
+						$array = array();
+						$array['tipo'] = "file";
+						$array['class'] = "file ext_$ext $subtitle_existe";
+						$array['filename'] = $dir . $file;
+						$array['nome'] = $file;
+						$data[$i++] = $array;
+					}
+				}
+			}
+					
+			
 		}
-		return $html;
 	}
 }
 ?>
