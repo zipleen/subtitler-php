@@ -35,6 +35,11 @@ class debug{
 		}
 	}
 	
+	public function error($text)
+	{
+		$this->log($text, 4);
+	}
+	
 	public function log($text, $level=1)
 	{
 		if(!$this->do_debug)

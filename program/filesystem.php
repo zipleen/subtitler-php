@@ -9,7 +9,6 @@ class filesystem{
 	
 	private $debug;
 	private $pasta;
-	private $unpack;
 	
 	/**
 	 * quanto este objecto eh criado, temos logo a pasta onde isto vai servir de base
@@ -24,12 +23,11 @@ class filesystem{
 		$this->debug->log(__METHOD__."() pasta selectionada como root: ".$this->pasta);
 	}
 	
-	private function unpack()
+	private function unpack($extension, $uploadedfilename, $targetfile)
 	{
 		include(dirname(__FILE__)."/unpack.php");
-		$this->unpack = new unpack();
-		
-		
+		$unpack = new unpack($extension);
+		return $unpack->unpack($uploadedfilename, $targetfile);
 	}
 	
 	/**
@@ -56,25 +54,54 @@ class filesystem{
 			//echo "eliminar $root . $subtitle";
 		}*/
 		//echo "copiar : ".$_FILES['file1']['tmp_name']. " para ". $root . $subtitle;
-
-		// $_FILES[$form_name]['name'] = original name
-		
 		if(is_writable($dir))
 		{
-			if(move_uploaded_file($_FILES[$form_name]['tmp_name'], $to))
+			// $_FILES[$form_name]['name'] = original name
+			$packed_ext = array('zip', 'rar');
+			$ext = preg_replace('/^.*\./', '', strtolower($_FILES[$form_name]['name']));
+			if( in_array($ext, $packed_ext) )
 			{
+				// vamos entrar em modo de descompactar o file e escreve-lo!
+				$this->debug->log(__METHOD__."() going to try to unpack this file!!!");
+				include(dirname(__FILE__)."/unpack.php");
+				$unpack = new unpack($ext);
+				$from = $unpack->unpack($_FILES[$form_name]['tmp_name'], substr($to, strripos($to, "/")));
+				if($from===false)
+				{
+					$this->debug->error(__METHOD__."() erro no unpack!");
+					return $unpack->getError();
+				}
+			}
+			else
+			{
+				$this->debug->log(__METHOD__."() maneira normal de srt upload!");
+				$from = $_FILES[$form_name]['tmp_name'];
+			}
+			// mover o file!
+			if($from!==false && move_uploaded_file($from, $to))
+			{
+				chmod($to, "775");
 				$this->debug->log(__METHOD__."() Consegui escrever o file para $to!");
 				return "";
 			}
 			else
 			{
-				$this->debug->log(__METHOD__."() erro a escrever em " . $to);
+				$this->debug->error(__METHOD__."() erro a escrever em " . $to);
 				return "erro a escrever em " . $to;
 			} 
-		}else{
-			$this->debug->log(__METHOD__."directoria nao eh possivel ser escrita");
+			
+			// cleanup! - se foi descompactado temos de fazer o clean
+			if(isSet($unpack) && is_object($unpack))
+			{
+				$unpack->cleanUp();
+			}
+		}
+		else
+		{
+			$this->debug->error(__METHOD__."directoria nao eh possivel ser escrita");
 			return "directoria nao eh possivel ser escrita";
 		}
+
 	}
 	
 	/**
@@ -107,7 +134,7 @@ class filesystem{
 			}
 			else
 			{
-				$this->debug->log(__METHOD__."() ficheiro ".$this->pasta . $filename." nao existe!!!");
+				$this->debug->error(__METHOD__."() ficheiro ".$this->pasta . $filename." nao existe!!!");
 				$error = "ficheiro ".$this->pasta . $filename." nao existe!!!";
 			}
 		}
