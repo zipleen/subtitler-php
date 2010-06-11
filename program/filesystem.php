@@ -77,17 +77,18 @@ class filesystem{
 				$this->debug->log(__METHOD__."() maneira normal de srt upload!");
 				$from = $_FILES[$form_name]['tmp_name'];
 			}
+			
+			$error = false;
+			
 			// mover o file!
-			if($from!==false && move_uploaded_file($from, $to))
+			if($from!==false && rename($from, $to))
 			{
 				chmod($to, "775");
 				$this->debug->log(__METHOD__."() Consegui escrever o file para $to!");
-				return "";
 			}
 			else
 			{
 				$this->debug->error(__METHOD__."() erro a escrever em " . $to);
-				return "erro a escrever em " . $to;
 			} 
 			
 			// cleanup! - se foi descompactado temos de fazer o clean
@@ -100,6 +101,11 @@ class filesystem{
 				$this->debug->log(__METHOD__."() cleaning up o uploaded file!");
 				unlink($_FILES[$form_name]['tmp_name']);
 			}
+			
+			if($error)
+				return "erro a escrever em " . $to;
+			else
+				return "";
 		}
 		else
 		{
