@@ -37,10 +37,11 @@ class filesystem{
 	 */
 	private function cleanFilename($filename)
 	{
+		$save = $filename;
 		$filename = str_replace('../', '', html_entity_decode($filename)); // prevent illegal directory traversing
 		$filename = str_replace('..', '', $filename); // dupla verificacao, para desaparecer todos os ".."
 		$filename = urldecode($filename);
-		
+		$this->debug->log(__METHOD__."() got $save sent $filename");
 		return $filename;
 	}
 	
@@ -55,10 +56,17 @@ class filesystem{
 				
 		if(is_writable($dir)){
 			if(move_uploaded_file($_FILES[$form_name]['tmp_name'], $to))
+			{
+				$this->debug->log(__METHOD__."Consegui escrever o file para $to!");
 				return "";
+			}
 			else
-				return "erro a escrever em " . $to; 
+			{
+				$this->debug->log(__METHOD__."erro a escrever em " . $to);
+				return "erro a escrever em " . $to;
+			} 
 		}else{
+			$this->debug->log(__METHOD__."directoria nao eh possivel ser escrita");
 			return "directoria nao eh possivel ser escrita";
 		}
 	}
@@ -88,6 +96,11 @@ class filesystem{
 				$error = $this->writeUploadedFile($_FILES[$form_name]['tmp_name'], $this->pasta . $subtitle, $dir);
 				if($error=="")
 					$msg = "OK";
+			}
+			else
+			{
+				$this->debug->log(__METHOD__."() ficheiro ".$this->pasta . $filename." nao existe!!!");
+				$error = "ficheiro ".$this->pasta . $filename." nao existe!!!";
 			}
 		}
 		
