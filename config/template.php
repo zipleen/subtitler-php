@@ -9,26 +9,26 @@ $core = core::getInstance();
 		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 		
 		<style type="text/css">
-			BODY,
-			HTML {
+			body,
+			html {
 				padding: 0px;
 				margin: 0px;
 			}
-			BODY {
+			body {
 				font-family: Verdana, Arial, Helvetica, sans-serif;
 				font-size: 11px;
 				background: #EEE;
 				padding: 15px;
 			}
 			
-			H1 {
+			h1 {
 				font-family: Georgia, serif;
 				font-size: 20px;
 				font-weight: normal;
 				text-align: center;
 			}
 			
-			H2 {
+			h2 {
 				font-family: Helvetica,Georgia, serif;
 				font-size: 16px;
 				font-weight: normal;
@@ -38,7 +38,7 @@ $core = core::getInstance();
 			.example {
 				float: left;
 				margin-left: 100px;
-				margin-top: 20px;
+				margin-top: 2px;
 			}
 			
 			.demo {
@@ -53,9 +53,14 @@ $core = core::getInstance();
 				padding: 5px;
 			}
 			
-			P.note {
+			p.note {
 				color: #999;
 				clear: both;
+			}
+			
+			lastmodified p {
+				margin-bottom: 0;
+				font-size: 13px; 				
 			}
 		</style>
 		
@@ -88,10 +93,11 @@ $core = core::getInstance();
 				$('#fileTreeDemo_1').fileTree({ root: '/', script: 'index.php?op=getFileTree', loadMessage: 'Um momento por favor...' }, 
 					function(file) { 
 						//file.preventDefault();
-						$('#nome_file')[0].innerHTML = file;
+						makeDownload($file);
+						/*$('#nome_file')[0].innerHTML = file;
 						document.getElementById('download').innerHTML="<a href='index.php?op=getsubtitle&file="+file+"'> sacar </a>";
 						$('#legenda :hidden')[0].value = file;
-						$('#basicModalContent').modal();
+						$('#basicModalContent').modal();*/
 						//alert(file);
 					});
 
@@ -171,14 +177,14 @@ $core = core::getInstance();
 			<div id="fileTreeDemo_1" class="demo"></div>
 		</div>
 
-		<div style="clear:both; margin-left: 200px; padding-top: 20px;";>
+		<div style="clear:both; margin-left: 200px; padding-top: 10px;">
 		<p style='color:#FF3333'>A vermelho encontram-se os ficheiros SEM legendas.</p>
 		<p style='color:#00FF66'>A verde encontram-se os ficheiros que já tem legendas</p>
 		</div>
 
-		<div style="clear:both; margin-left: 200px; padding-top: 20px;">
+		<div style="clear:both; margin-left: 120px; ">
 			Ficheiros dos últimos 15 dias que precisam de legendas
-			<div id='lastmodified'><img src='images/spinner.gif'></img> Loading...</div>
+			<div id='lastmodified' style='padding-top: 10px;'><img src='images/spinner.gif'></img> Loading...</div>
 		</div>
 
 		<div id="basicModalContent" style='display:none'>

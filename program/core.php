@@ -207,7 +207,7 @@ class core{
 			foreach($array as $f)
 			{
 				if(strpos(strtolower($f), "sample")===false)
-					$html .= "<a href='#' onclick='makeDownload(\"$f\")'>".$f."</a><br/>";
+					$html .= "<p><a href='#' onclick='makeDownload(\"$f\")'>".$f."</a></p>";
 					//$html .= "<a href='#' onclick='makeDownload(\"$f\")'>".substr($f, strrpos($f, "/")+1)."</a><br/>";
 			}
 		}
