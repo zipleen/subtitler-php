@@ -108,7 +108,13 @@ class unpack{
 				break;
 				
 			case 'zip':
-				$command = 'unzip -o '.escapeshellarg($uploadedfilename).' -d '.$to.' 2>&1';
+				// o unzip eh estupido, quer um file .zip e o uplaoded file nunca tem isso
+				if(!rename($uploadedfilename, $uploadedfilename.".zip"))
+				{
+					$this->debug->error(__METHOD__."() erro a fazer rename de $uploadedfilename para $uploadedfilename.zip !");
+					return;
+				}
+				$command = 'unzip -o '.escapeshellarg($uploadedfilename.".zip").' -d '.$to.' 2>&1';
 				$this->debug->log(__METHOD__."() going to unzip with: ".$command);
 				exec($command, $output);
 				foreach($output as $o){
