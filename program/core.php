@@ -204,6 +204,7 @@ class core{
 		$array = $this->filesystem->getLastModifiedFiles();
 		if(count($array)>0)
 		{
+			natcasesort($array);
 			foreach($array as $f)
 			{
 				if(strpos(strtolower($f), "sample")===false)
