@@ -8,6 +8,7 @@ class core{
 	private $config = array();
 	private $filesystem;
 	private $pasta_selecionada;
+	private $debug;
 	
 	/**
 	 * singleton
@@ -39,6 +40,9 @@ class core{
 			die("Ficheiro cnf.php nao existe!");
 		include(dirname(__FILE__)."/../config/cnf.php");
 		
+		$this->debug = debug::getInstance();
+		$this->debug->init($debug);
+		
 		if(is_array($config) && count($config)>0)
 		{
 			foreach($config as $nome=>$opc)
@@ -50,7 +54,9 @@ class core{
 					$this->config[$nome]=$opc['dir'];
 					$this->config_nomes[$nome]=$opc['nome'];
 				}
-			}	
+			}
+			$this->debug->logArray("config:",$this->config);	
+			$this->debug->logArray("config names:",$this->config_nomes);	
 		}
 		else
 		{
@@ -104,7 +110,7 @@ class core{
 		foreach($this->config_nomes as $tipo=>$nome)
 		{
 			if($tipo==$this->pasta_selecionada)
-				$html .= $nome.$separator;
+				$html .= "<span class='active'>$nome</span>".$separator;
 			else
 				$html .= "<a href='index.php?op=changedir&tipo=$tipo'>$nome</a>".$separator;
 		}
@@ -166,30 +172,36 @@ class core{
 		exit();
 	}
 	
+	private function output($html)
+	{
+		echo $html;
+	}
+	
 	/**
 	 * mesmo metodo que o lv2 :D aqui eh onde as coisas vao ser processadas
 	 */
 	public function dispatchEvents()
 	{
+		$answer = '';
 		$op = $_REQUEST['op'];
 		switch($op)
 		{
 			case 'getFileTree':
-				echo $this->filesystem->getFileTree();
+				$answer = $this->filesystem->getFileTree();
 				break;
 			
 			case 'getsubtitle':
 				if(isSet($_REQUEST['file']))
 					$this->filesystem->getFile($_REQUEST['file']);
 				else 
-					echo "Erro - falta o filename!";
+					$answer = "Erro - falta o filename!";
 				break;
 				
 			case 'submit_subtitle':
 				if(isSet($_POST['filename']) && isSet($_FILES['file1']) )
-					$this->filesystem->submitFile($_POST['filename'], "file1");
+					$answer = $this->filesystem->submitFile($_POST['filename'], "file1");
 				else
-					echo "Erro - nao ha filename ou file!";
+					$answer = "Erro - nao ha filename ou file!";
 				break;
 			
 			case 'changedir':
@@ -198,9 +210,14 @@ class core{
 				
 			default:
 				// mostrar a pagina
+				ob_start();
 				include(dirname(__FILE__)."/../config/template.php");
+				$answer = ob_get_contents();
+				ob_end_clean();
+				
 				break;
 		}
+		$this->output($answer);
 	}
 }
 ?>

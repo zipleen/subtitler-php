@@ -5,7 +5,7 @@
  */
 
 class filesystem{
-	
+	private $debug;
 	private $pasta;
 	private $unpack;
 	
@@ -17,6 +17,8 @@ class filesystem{
 	public function __construct($pasta)
 	{
 		$this->pasta = $pasta;
+		$this->debug = debug::getInstance();
+		$this->debug->log(__METHOD__."() pasta selectionada como root: ".$this->pasta);
 	}
 	
 	private function unpack()
@@ -89,10 +91,7 @@ class filesystem{
 			}
 		}
 		
-		echo "{";
-			echo				"error: '" . $error . "',\n";
-			echo				"msg: '" . $msg . "'\n";
-			echo "}";
+		return "{ error: '$error', msg: '$msg '}";
 	}
 	
 	/**
@@ -115,7 +114,7 @@ class filesystem{
 			$dl->send();
 		}
 		else 
-			echo "Error - file not found!";
+			return "Error - file not found!";
 	}
 	
 	/**
@@ -126,17 +125,18 @@ class filesystem{
 	 */
 	public function getFileTree($dir)
 	{
+		$html = '';
 		$dir = $this->cleanFilename($dir);
 		
 		if( file_exists($this->pasta . $dir) ) {
 			$files = scandir($this->pasta . $dir);
 			natcasesort($files);
 			if( count($files) > 2 ) { /* The 2 accounts for . and .. */
-				echo "<ul class=\"jqueryFileTree\" style=\"display: none;\">";
+				$html .= "<ul class=\"jqueryFileTree\" style=\"display: none;\">";
 				// All dirs
 				foreach( $files as $file ) {
 					if( file_exists($this->pasta . $dir . $file) && $file != '.' && $file != '..' && $file != '.AppleDouble' && is_dir($this->pasta . $dir . $file) ) {
-						echo "<li class=\"directory collapsed\"><a href=\"#\" rel=\"" . htmlentities($dir . $file) . "/\">" . htmlentities($file) . "</a></li>";
+						$html .= "<li class=\"directory collapsed\"><a href=\"#\" rel=\"" . htmlentities($dir . $file) . "/\">" . htmlentities($file) . "</a></li>";
 					}
 				}
 				// All files
@@ -148,13 +148,14 @@ class filesystem{
 							if(file_exists($this->pasta . $dir . $subtitle))
 								$subtitle_existe = "tem";
 							else $subtitle_existe = "n_tem";
-							echo "<li class=\"file ext_$ext $subtitle_existe\"><a href=\"#\" rel=\"" . htmlentities($dir . $file) . "\">" . htmlentities($file) . "</a></li>";
+							$html .= "<li class=\"file ext_$ext $subtitle_existe\"><a href=\"#\" rel=\"" . htmlentities($dir . $file) . "\">" . htmlentities($file) . "</a></li>";
 						}
 					}
 				}
-				echo "</ul>";	
+				$html .= "</ul>";	
 			}
 		}
+		return $html;
 	}
 }
 ?>

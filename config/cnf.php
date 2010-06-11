@@ -11,4 +11,5 @@ $config = array(
 			'torrents'=>array('nome'=>'Torrents', 'dir'=>'/home/torrents'),
 			'disco_pai'=>array('nome'=>'Disco Pai', 'dir'=>'/mnt/disco_pai')
 	);
+$debug = true;	
 ?>
