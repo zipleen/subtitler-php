@@ -146,7 +146,7 @@ class filesystem{
 		$files = $this->getFileTree($dir);
 		$this->debug->logArray(__METHOD__."() got these files!", $files);
 		$html = '';
-		if( count($files) > 2 ) 
+		if( count($files) > 0 ) 
 		{ 
 			
 			$html .= "<ul class=\"jqueryFileTree\" style=\"display: none;\">";
@@ -183,42 +183,43 @@ class filesystem{
 			$files = scandir($this->pasta . $dir);
 			natcasesort($files);
 			
-			// All dirs
-			foreach( $files as $file ) 
-			{
-				/* The 2 accounts for . and .. */
-				if( file_exists($this->pasta . $dir . $file) && $file != '.' && $file != '..' && $file != '.AppleDouble' && is_dir($this->pasta . $dir . $file) ) 
+			if( count($files) > 2 ) 
+			{ 
+				// All dirs
+				foreach( $files as $file ) 
 				{
-					$array = array();
-					$array['tipo'] = "dir";
-					$array['filename'] = $dir . $file;
-					$array['nome'] = $file;
-					$data[$i++] = $array;
-				}
-			}
-			// All files
-			foreach( $files as $file ) 
-			{
-				if( file_exists($this->pasta . $dir . $file) && $file != '.' && $file != '..' && !is_dir($this->pasta . $dir . $file) ) 
-				{
-					$ext = preg_replace('/^.*\./', '', $file);
-					if($ext=="avi" || $ext=="mkv" || $ext=="mpg" || $ext=="mp4")
+					/* The 2 accounts for . and .. */
+					if( file_exists($this->pasta . $dir . $file) && $file != '.' && $file != '..' && $file != '.AppleDouble' && is_dir($this->pasta . $dir . $file) ) 
 					{
-						$subtitle = substr($file,0,-3)."srt";
-						if(file_exists($this->pasta . $dir . $subtitle))
-							$subtitle_existe = "tem";
-						else $subtitle_existe = "n_tem";
 						$array = array();
-						$array['tipo'] = "file";
-						$array['class'] = "file ext_$ext $subtitle_existe";
+						$array['tipo'] = "dir";
 						$array['filename'] = $dir . $file;
 						$array['nome'] = $file;
 						$data[$i++] = $array;
 					}
 				}
-			}
-					
-			
+				// All files
+				foreach( $files as $file ) 
+				{
+					if( file_exists($this->pasta . $dir . $file) && $file != '.' && $file != '..' && !is_dir($this->pasta . $dir . $file) ) 
+					{
+						$ext = preg_replace('/^.*\./', '', $file);
+						if($ext=="avi" || $ext=="mkv" || $ext=="mpg" || $ext=="mp4")
+						{
+							$subtitle = substr($file,0,-3)."srt";
+							if(file_exists($this->pasta . $dir . $subtitle))
+								$subtitle_existe = "tem";
+							else $subtitle_existe = "n_tem";
+							$array = array();
+							$array['tipo'] = "file";
+							$array['class'] = "file ext_$ext $subtitle_existe";
+							$array['filename'] = $dir . $file;
+							$array['nome'] = $file;
+							$data[$i++] = $array;
+						}
+					}
+				}
+			}		
 		}
 		return $data;
 	}
