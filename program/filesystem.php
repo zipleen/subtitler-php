@@ -144,7 +144,7 @@ class filesystem{
 	public function getFileTreeInUL($dir)
 	{
 		$files = $this->getFileTree($dir);
-		$this->debug->logArray(__METHOD__."() got these files!");
+		$this->debug->logArray(__METHOD__."() got these files!", $files);
 		$html = '';
 		if( count($files) > 2 ) 
 		{ 
