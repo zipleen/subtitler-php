@@ -149,8 +149,8 @@ class core{
 	private function redirectBack()
 	{
 		
-		$this->debug->log(__METHOD__."() redirecting to ".$_SERVER['REQUEST_URI']);
-		header("location: ".$_SERVER['REQUEST_URI']);
+		$this->debug->log(__METHOD__."() redirecting to ".$_SERVER['SCRIPT_NAME']);
+		header("location: ".$_SERVER['SCRIPT_NAME']);
 		exit();
 	}
 	
