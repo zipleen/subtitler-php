@@ -174,7 +174,7 @@ class core{
 		switch($op)
 		{
 			case 'getFileTree':
-				$answer = $this->filesystem->getFileTree();
+				$answer = $this->filesystem->getFileTree($_REQUEST['dir']);
 				break;
 			
 			case 'getsubtitle':
