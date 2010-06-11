@@ -5,6 +5,8 @@
  */
 
 class filesystem{
+	private $supported_files;
+	
 	private $debug;
 	private $pasta;
 	private $unpack;
@@ -14,8 +16,9 @@ class filesystem{
 	 * 
 	 * @param string $pasta
 	 */
-	public function __construct($pasta)
+	public function __construct($pasta, $supported_files)
 	{
+		$this->supported_files = $supported_files;
 		$this->pasta = $pasta;
 		$this->debug = debug::getInstance();
 		$this->debug->log(__METHOD__."() pasta selectionada como root: ".$this->pasta);
@@ -204,7 +207,7 @@ class filesystem{
 					if( file_exists($this->pasta . $dir . $file) && $file != '.' && $file != '..' && !is_dir($this->pasta . $dir . $file) ) 
 					{
 						$ext = preg_replace('/^.*\./', '', $file);
-						if($ext=="avi" || $ext=="mkv" || $ext=="mpg" || $ext=="mp4")
+						if( in_array(strtolower($ext), $this->supported_files) )
 						{
 							$subtitle = substr($file,0,-3)."srt";
 							if(file_exists($this->pasta . $dir . $subtitle))

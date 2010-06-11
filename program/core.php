@@ -6,6 +6,9 @@
 
 class core{
 	private $config = array();
+	private $config_nomes = array();
+	private $supported_files = array('mkv','avi');
+	
 	private $filesystem;
 	private $pasta_selecionada;
 	private $debug;
@@ -64,6 +67,12 @@ class core{
 			die("Configure o ficheiro config/cnf.php !!");
 		}
 		
+		if(isSet($supported_files))
+		{
+			$this->debug->logArray(__METHOD__." Setting suported filetypes to:", $supported_files);
+			$this->supported_files = $supported_files;
+		}
+		
 		// primeiro verificar se temos um REQUEST para a "pasta"
 		if( isSet($_REQUEST['pasta']) && isSet($this->config[$_REQUEST['pasta']]) )
 		{
@@ -90,7 +99,7 @@ class core{
 		
 		// abrir objectos e inicializa-los
 		include(dirname(__FILE__)."/filesystem.php");
-		$this->filesystem = new filesystem( $this->config[$this->pasta_selecionada] );
+		$this->filesystem = new filesystem( $this->config[$this->pasta_selecionada], $this->supported_files);
 	}
 	
 	public function __destruct()
