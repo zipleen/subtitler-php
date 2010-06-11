@@ -154,11 +154,11 @@ class filesystem{
 			{
 				if($opc['tipo']=="dir")
 				{
-					$html .= "<li class=\"directory collapsed\"><a href=\"#\" rel=\"" . htmlentities($opc['filename']) . "/\">" . htmlentities($opc['nome']) . "</a></li>";
+					$html .= "<li class=\"directory collapsed\"><a href=\"#\" rel=\"" . htmlentities($opc['filename'], ENT_QUOTES, 'UTF-8') . "/\">" . htmlentities($opc['nome'], ENT_QUOTES, 'UTF-8') . "</a></li>";
 				}
 				if($opc['tipo']=="file")
 				{
-					$html .= "<li class=\"".$opc['class']."\"><a href=\"#\" rel=\"" . htmlentities($opc['filename']) . "\">" . htmlentities($opc['nome']) . "</a></li>";
+					$html .= "<li class=\"".$opc['class']."\"><a href=\"#\" rel=\"" . htmlentities($opc['filename'], ENT_QUOTES, 'UTF-8') . "\">" . htmlentities($opc['nome'], ENT_QUOTES, 'UTF-8') . "</a></li>";
 				}
 			}
 			$html .= "</ul>";
