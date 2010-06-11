@@ -239,6 +239,7 @@ class unpack{
 	 */
 	public function cleanUp()
 	{
+		clearstatcache();
 		if(is_file($this->srt_file))
 		{
 			$this->debug->log(__METHOD__."() deleting $this->srt_file !");
