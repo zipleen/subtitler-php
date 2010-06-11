@@ -11,6 +11,8 @@ $config = array(
 			'filmes'=>array('nome'=>'Filmes', 'dir'=>'/home/ftp/MANDA_PARA_AKI/XVID'),
 			'disco_pai'=>array('nome'=>'Disco Pai', 'dir'=>'/mnt/disco_pai')
 	);
+// supported file types - para facilitar a vida caso precise de adicionar mais alguma coisa
 $supported_files = array('avi','mkv','mp4','mpg');	
-$debug = true;	
+// se debug = true, entao temos debug com o firebug!
+$debug = false;	
 ?>
