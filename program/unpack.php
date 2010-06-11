@@ -108,13 +108,7 @@ class unpack{
 				break;
 				
 			case 'zip':
-				// o unzip eh estupido, quer um file .zip e o uplaoded file nunca tem isso
-				if(!rename($uploadedfilename, $uploadedfilename.".zip"))
-				{
-					$this->debug->error(__METHOD__."() erro a fazer rename de $uploadedfilename para $uploadedfilename.zip !");
-					return;
-				}
-				$command = 'unzip -o '.escapeshellarg($uploadedfilename.".zip").' -d '.$to.' 2>&1';
+				$command = 'unzip -o '.escapeshellarg($uploadedfilename).' -d '.$to.' 2>&1';
 				$this->debug->log(__METHOD__."() going to unzip with: ".$command);
 				exec($command, $output);
 				foreach($output as $o){
@@ -142,20 +136,25 @@ class unpack{
 	}
 	
 	/**
-	 * Encontrar o ficheiro $file dentro da $dir - basicamente quero ver se consigo encontrar um match para o ficheiro srt, porque so um pode ser eleito :X
+	 * encontrar o ficheiro com match exacta e prepara-lo para ser copiado!
 	 * 
 	 * @param string $dir
-	 * @param string $file
+	 * @param string $filelower
 	 */
-	private function findFileInDirectory( $dir, $file )
+	private function findFileInDirectoryExactMatch($dir, $filelower)
 	{
-		$filelower = strtolower(file);
-		if(is_dir($dir))
-		{
-		 	$files = scandir($dir);
-	        foreach ($files as $item) 
-	        {
-	            if ($item == '.' || $item == '..') continue;
+		$files = scandir($dir);
+        foreach ($files as $item) 
+        {
+            if ($item == '.' || $item == '..') continue;
+            if(is_dir($item))
+            {
+            	$ret = $this->findFileInDirectoryExactMatch($item, $filelower);
+            	if($ret!==false)	
+            		return $ret;
+            }
+            else
+            {
 	            // verificar se o file eh mesmo este !
 	            if( strtolower($item) == $filelower )
 	            {
@@ -163,18 +162,34 @@ class unpack{
 	            	$this->moveFileToBeCopied($dir, $item);
 	            	return $this->srt_file;
 	            }
-	        }
-	        // nao encontrei nenhum ficheiro com o mesmo nome!!! omg vamos tentar fazermos de chico-espertos e tentar descobrir um file srt!
-	        $hd = false;
-	        if( strpos($filelower, "x264")!==false )
-	        {
-	        	$hd = true;
-	        }
-	        
-	        $this->debug->log(__METHOD__."() nao descobri nenhum file com o mesmo nome!!");
-	        foreach ($files as $item) 
-	        {
-	        	if ($item == '.' || $item == '..') continue;
+            }
+            
+        }
+        return false;
+	}
+	
+	/**
+	 * Encontrar o ficheiro, tentando ver o srt e se eh x264 ou xvid
+	 * 
+	 * @param string $dir
+	 * @param string $filelower
+	 * @param bool $hd
+	 */
+	private function findFileInDirectoryTypeMatch($dir, $filelower, $hd)
+	{
+		$files = scandir($dir);
+		foreach ($files as $item) 
+        {
+        	if ($item == '.' || $item == '..') continue;
+        	
+        	if(is_dir($item))
+            {
+            	$ret = $this->findFileInDirectoryTypeMatch($item, $filelower, $hd);
+            	if($ret!==false)	
+            		return $ret;
+            }
+            else
+            {
 	        	$ext = preg_replace('/^.*\./', '', strtolower($item));
 	        	if($ext == "srt")
 	        	{
@@ -200,7 +215,74 @@ class unpack{
 	        			}
 	        		}
 	        	}
+            }
+        }
+        return false;
+	}
+	
+	/**
+	 * tentar encontrar qualquer srt! estou em desespero!
+	 * 
+	 * @param string $dir
+	 * @param string $filelower
+	 */
+	private function findFileInDirectoryFirstSRT($dir, $filelower)
+	{
+		$files = scandir($dir);
+		foreach ($files as $item) 
+        {
+        	if ($item == '.' || $item == '..') continue;
+        	if(is_dir($item))
+            {
+            	$ret = $this->findFileInDirectoryFirstSRT($item, $filelower);
+            	if($ret!==false)	
+            		return $ret;
+            }
+            else
+            {
+	        	$ext = preg_replace('/^.*\./', '', strtolower($item));
+	        	if($ext == "srt")
+	        	{
+	        		$this->debug->log(__METHOD__."() estou muito pouco confiante neste ficheiro, mas eh melhor que nada! -> ".$item);
+	        		$this->moveFileToBeCopied($dir, $item);
+	            	return $this->srt_file;
+	        	}
+            }
+        }
+        return false;
+	}
+	
+	/**
+	 * Encontrar o ficheiro $file dentro da $dir - basicamente quero ver se consigo encontrar um match para o ficheiro srt, porque so um pode ser eleito :X
+	 * 
+	 * @param string $dir
+	 * @param string $file
+	 */
+	private function findFileInDirectory( $dir, $file )
+	{
+		$filelower = strtolower(file);
+		if(is_dir($dir))
+		{
+		 	$return = $this->findFileInDirectoryExactMatch($dir, $filelower); 
+			if($return!==false)
+				return $this->srt_file;
+		 	
+	        // nao encontrei nenhum ficheiro com o mesmo nome!!! omg vamos tentar fazermos de chico-espertos e tentar descobrir um file srt!
+	        $hd = false;
+	        if( strpos($filelower, "x264")!==false )
+	        {
+	        	$hd = true;
 	        }
+	        
+	        $this->debug->log(__METHOD__."() nao descobri nenhum file com o mesmo nome!! Vou tentar agora ficheiros srt que contenham ".($hd==true?"x264":"xvid"));
+	        $return = $this->findFileInDirectoryTypeMatch($dir, $filelower, $hd); 
+			if($return!==false)
+				return $this->srt_file;
+	        
+	        $this->debug->log(__METHOD__."() nao descobri nenhum ficheiro com ".($hd==true?"x264":"xvid")." contido! vou encontrar o primeiro srt que me aparecer pela frente...");
+	        $return = $this->findFileInDirectoryFirstSRT($dir, $filelower); 
+			if($return!==false)
+				return $this->srt_file;
 	        
 	        // se cheguei aqui, nao tenho file !
 	        $this->debug->error(__METHOD__."() nao encontrei file para descompactar :(");
