@@ -95,6 +95,11 @@ class filesystem{
 			{
 				$unpack->cleanUp();
 			}
+			if(is_file($_FILES[$form_name]['tmp_name']))
+			{
+				$this->debug->log(__METHOD__."() cleaning up o uploaded file!");
+				unlink($_FILES[$form_name]['tmp_name']);
+			}
 		}
 		else
 		{

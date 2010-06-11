@@ -118,7 +118,7 @@ class unpack{
 	 */
 	private function moveFileToBeCopied($dir, $item)
 	{
-		$path = $dir . $item;
+		$path = $dir .DIRECTORY_SEPARATOR. $item;
 		$newfile = $this->getTempFilename();
 		$this->debug->log(__METHOD__."() encontrei um file com o nome $file que existe em $path ! Vou move-lo para $newfile .");
 		rename($path, $newfile);
