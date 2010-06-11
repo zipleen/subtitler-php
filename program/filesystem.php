@@ -57,12 +57,12 @@ class filesystem{
 		if(is_writable($dir)){
 			if(move_uploaded_file($_FILES[$form_name]['tmp_name'], $to))
 			{
-				$this->debug->log(__METHOD__."Consegui escrever o file para $to!");
+				$this->debug->log(__METHOD__."() Consegui escrever o file para $to!");
 				return "";
 			}
 			else
 			{
-				$this->debug->log(__METHOD__."erro a escrever em " . $to);
+				$this->debug->log(__METHOD__."() erro a escrever em " . $to);
 				return "erro a escrever em " . $to;
 			} 
 		}else{
@@ -93,7 +93,7 @@ class filesystem{
 				// '/bla' + '/file/orig.mkv' fica '/bla/file'
 				$dir = $this->pasta . substr($filename, 0, strripos($filename, "/"));
 				
-				$error = $this->writeUploadedFile($_FILES[$form_name]['tmp_name'], $this->pasta . $subtitle, $dir);
+				$error = $this->writeUploadedFile($form_name, $this->pasta . $subtitle, $dir);
 				if($error=="")
 					$msg = "OK";
 			}
