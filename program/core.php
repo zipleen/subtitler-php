@@ -230,6 +230,7 @@ class core{
 	
 	private function output($html)
 	{
+		$this->debug->log(__METHOD__."() outputing html ! bye =)");
 		echo $html;
 	}
 	
