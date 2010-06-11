@@ -35,8 +35,10 @@ class core{
 		session_start();
 		
 		// ler o ficheiro de config que vai conter o array de valores
+		if(!is_file(dirname(__FILE__)."/../config/cnf.php"))
+			die("Ficheiro cnf.php nao existe!");
 		include(dirname(__FILE__)."/../config/cnf.php");
-		global $config;
+		
 		if(is_array($config) && count($config)>0)
 		{
 			foreach($config as $nome=>$opc)
