@@ -141,35 +141,16 @@ class core{
 			exit();
 		}
 	}
-	
-	/**
-	 * Comparar 2 urls
-	 * Os www. sao ignorados. 
-	 * se o url 1 bater certo com o url2 eh retornado true.
-	 * 
-	 * @param string $url1
-	 * @param string $url2
-	 * @return bool
-	 */
-	public static function comparteTwoUrls($url1, $url2){
-		$p1 = parse_url($url1);
-		$p2 = parse_url($url2);
-		if(trim(strtolower(str_replace("www.","",$p1['host'])))==trim(strtolower(str_replace("www.","",$p2['host']))) && $p1['scheme']==$p2['scheme'])
-			return true;
-		else
-			return false;
-	}
-	
+
 	/**
 	 * faz o redirect para a pagina "anterior", ou se nao viemos da pagina em questao, faz redirect para o script principal
 	 * 
 	 */
 	private function redirectBack()
 	{
-		if( $this->comparteTwoUrls($_SERVER['HTTP_REFERER'], $_SERVER['SERVER_NAME']) == true )
-			header("location: ".$_SERVER['HTTP_REFERER']);
-		else
-			header("location: ".$_SERVER['REQUEST_URI']);	
+		
+		$this->debug->log(__METHOD__."() redirecting to ".$_SERVER['REQUEST_URI']);
+		header("location: ".$_SERVER['REQUEST_URI']);
 		exit();
 	}
 	
