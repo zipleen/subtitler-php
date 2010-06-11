@@ -19,6 +19,6 @@ body {padding:0; margin:0; height:100%; width:100%;}
 
 /* Container */
 #modalContainer {height:300px; width:500px; left:50%; top:15%; margin-left:-200px; background-color:#fff; border:3px solid #ccc;}
-#modalContainer a.modalCloseImg {background:url(../images/basic/x.png) no-repeat; width:25px; height:29px; display:inline; z-index:3200; position:absolute; top:-15px; right:-18px; cursor:pointer;}
+#modalContainer a.modalCloseImg {background:url(../images/x.png) no-repeat; width:25px; height:29px; display:inline; z-index:3200; position:absolute; top:-15px; right:-18px; cursor:pointer;}
 #modalContainer #basicModalContent {padding:8px;}
 #modalContainer #nome_file {font-weight:bold;}
