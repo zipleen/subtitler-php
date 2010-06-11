@@ -53,7 +53,9 @@ class filesystem{
 			//echo "eliminar $root . $subtitle";
 		}*/
 		//echo "copiar : ".$_FILES['file1']['tmp_name']. " para ". $root . $subtitle;
-				
+
+		// $_FILES[$form_name]['name'] = original name
+		
 		if(is_writable($dir)){
 			if(move_uploaded_file($_FILES[$form_name]['tmp_name'], $to))
 			{
