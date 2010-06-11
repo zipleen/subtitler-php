@@ -96,7 +96,7 @@ $core = core::getInstance();
 					});
 
 				$.post('index.php?op=getLastModifiedFilesInHtml', function(data) {
-					  $('.lastmodified').html(data);
+					  $('#lastmodified').html(data);
 					});
 				
 				/*$('#fileTreeDemo_2').fileTree({ root: 'demo/', script: 'jqueryFileTree.php', folderEvent: 'click', expandSpeed: 750, collapseSpeed: 750, multiFolder: false }, function(file) { 
