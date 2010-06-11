@@ -106,7 +106,17 @@ class unpack{
 				}
 				
 				break;
-		
+				
+			case 'zip':
+				$command = 'unzip -o '.escapeshellarg($uploadedfilename).' -d '.$to.' 2>&1';
+				$this->debug->log(__METHOD__."() going to unzip with: ".$command);
+				exec($command, $output);
+				foreach($output as $o){
+					if(strpos($o,'error')!==false){
+						$this->debug->error(__METHOD__."() houve erros a descompactar ?! -> $o");
+					}
+				}
+				break;
 		}
 	}
 	
