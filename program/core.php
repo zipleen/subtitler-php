@@ -201,7 +201,7 @@ class core{
 	public function getLastModifiedFilesInHtml()
 	{
 		$html = '';
-		$array = $this->getLastModifiedFiles();
+		$array = $this->filesystem->getLastModifiedFiles();
 		if(count($array)>0)
 		{
 			foreach($array as $f)
