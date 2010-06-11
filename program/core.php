@@ -40,6 +40,7 @@ class core{
 			die("Ficheiro cnf.php nao existe!");
 		include(dirname(__FILE__)."/../config/cnf.php");
 		
+		include(dirname(__FILE__)."/debug.php");
 		$this->debug = debug::getInstance();
 		$this->debug->init($debug);
 		
