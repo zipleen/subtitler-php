@@ -78,7 +78,7 @@ $core = core::getInstance();
 			
 			$(document).ready( function() {
 				
-				$('#fileTreeDemo_1').fileTree({ root: '/', script: 'jqueryFileTree.php' }, 
+				$('#fileTreeDemo_1').fileTree({ root: '/', script: 'index.php?op=getFileTree', loadMessage: 'Um momento por favor...' }, 
 					function(file) { 
 						//file.preventDefault();
 						$('#nome_file')[0].innerHTML = file;
