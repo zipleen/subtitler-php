@@ -183,8 +183,8 @@ $core = core::getInstance();
 		</div>
 
 		<div style="clear:both; margin-left: 120px; ">
-			Ficheiros dos últimos 15 dias que precisam de legendas
-			<div id='lastmodified' style='padding-top: 10px;'><img src='images/spinner.gif'></img> Loading...</div>
+			<h3 style='margin-bottom:0px;'>Ficheiros dos últimos 15 dias que precisam de legendas</h3>
+			<div id='lastmodified'><img src='images/spinner.gif'></img> Loading...</div>
 		</div>
 
 		<div id="basicModalContent" style='display:none'>
