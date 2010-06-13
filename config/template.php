@@ -93,11 +93,10 @@ $core = core::getInstance();
 				$('#fileTreeDemo_1').fileTree({ root: '/', script: 'index.php?op=getFileTree', loadMessage: 'Um momento por favor...' }, 
 					function(file) { 
 						//file.preventDefault();
-						makeDownload($file);
-						/*$('#nome_file')[0].innerHTML = file;
+						$('#nome_file')[0].innerHTML = file;
 						document.getElementById('download').innerHTML="<a href='index.php?op=getsubtitle&file="+file+"'> sacar </a>";
 						$('#legenda :hidden')[0].value = file;
-						$('#basicModalContent').modal();*/
+						$('#basicModalContent').modal();
 						//alert(file);
 					});
 
