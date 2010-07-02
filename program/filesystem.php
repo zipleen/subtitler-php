@@ -83,7 +83,7 @@ class filesystem{
 			// mover o file!
 			if($from!==false && rename($from, $to))
 			{
-				chmod($to, "775");
+				chmod($to, 0775);
 				$this->debug->log(__METHOD__."() Consegui escrever o file para $to!");
 			}
 			else
