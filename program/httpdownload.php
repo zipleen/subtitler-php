@@ -92,7 +92,7 @@ class httpdownload
 		if($this->legendas_tv==true && $info['content_type']=="text/html; charset=ISO-8859-1" && strpos($this->last_url_downloaded, "?d=")!==false && strpos($this->last_url_downloaded, "&c=")==false && strpos($this->last_bytes_downloaded, ".rar")==false)
 		{
 			// o legendas.tv do twitter nao saca o file, e preciso de adicionar o &c=1 para isto sacar. vou fazer aqui um hack feio
-			return $this->downloadUrlCurl($url."&c=1");
+			return $this->downloadUrlCurl($this->last_url_downloaded."&c=1");
 		}
 		return $rec_data;
 	}
