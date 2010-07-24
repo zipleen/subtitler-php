@@ -14,6 +14,8 @@ class httpdownload
 	private $last_bytes_downloaded = 0;
 	private $last_url_downloaded = "";
 	
+	private $legendas_tv = false;
+	
 	/**
 	 * quanto este objecto eh criado, temos logo a pasta onde isto vai servir de base
 	 * 
@@ -40,6 +42,7 @@ class httpdownload
 		} 
 		// fazer login
 		$this->downloadUrlCurl("http://legendas.tv/login_verificar.php", array("chkLogin"=>"1","entrar.x"=>"27","entrar.y"=>"14","txtLogin"=>"pluto","txtSenha"=>"pluto123"));
+		$this->legendas_tv = true;
 	}
 	
 	/**
@@ -82,8 +85,15 @@ class httpdownload
 		
 		if(isSet($info['url']))
 			$this->last_url_downloaded = $info['url'];	
-			
+
 		curl_close ($ch);
+		
+		// se eh o legendas tv, vamos ver se o url contem algo que nao era suposto =)
+		if($this->legendas_tv==true && strpos($this->last_bytes_downloaded, "?d=")!==false && strpos($this->last_bytes_downloaded, "&c=")==false && strpos($this->last_bytes_downloaded, ".rar")==false)
+		{
+			// o legendas.tv do twitter nao saca o file, e preciso de adicionar o &c=1 para isto sacar. vou fazer aqui um hack feio
+			return $this->downloadUrlCurl($url."&c=1");
+		}
 		return $rec_data;
 	}
 	
