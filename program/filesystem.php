@@ -54,6 +54,7 @@ class filesystem{
 			//echo "eliminar $root . $subtitle";
 		}*/
 		//echo "copiar : ".$_FILES['file1']['tmp_name']. " para ". $root . $subtitle;
+		$this->debug->logArray(__METHOD__."() starting to check for write permissions. _FILES array follows", $_FILES);
 		if(is_writable($dir))
 		{
 			// $_FILES[$form_name]['name'] = original name
@@ -89,6 +90,7 @@ class filesystem{
 			else
 			{
 				$this->debug->error(__METHOD__."() erro a escrever em " . $to);
+				$error = true;
 			} 
 			
 			// cleanup! - se foi descompactado temos de fazer o clean

@@ -13,6 +13,7 @@ $config = array(
 	);
 // supported file types - para facilitar a vida caso precise de adicionar mais alguma coisa
 $supported_files = array('avi','mkv','mp4','mpg');	
+$temp_folder = "/tmp";
 // se debug = true, entao temos debug com o firebug!
 $debug = false;	
 ?>

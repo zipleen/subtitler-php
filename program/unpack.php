@@ -260,7 +260,7 @@ class unpack{
 	 */
 	private function findFileInDirectory( $dir, $file )
 	{
-		$filelower = strtolower(file);
+		$filelower = strtolower($file);
 		if(is_dir($dir))
 		{
 		 	$return = $this->findFileInDirectoryExactMatch($dir, $filelower); 

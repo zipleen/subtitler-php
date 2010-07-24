@@ -84,7 +84,8 @@ $core = core::getInstance();
 			{
 				$('#nome_file')[0].innerHTML = file;
 				document.getElementById('download').innerHTML="<a href='index.php?op=getsubtitle&file="+file+"'> sacar </a>";
-				$('#legenda :hidden')[0].value = file;
+				//$('#legenda :hidden')[0].value = file;
+				$('#filename').val(file);
 				$('#basicModalContent').modal();
 			}
 			
@@ -155,10 +156,48 @@ $core = core::getInstance();
 					alert(e);
 				}
 			}
-		)
+		);
 		
 		return false;
 
+	}
+
+	function ajaxUrlSubmit(urlsubtitle, avifilename)
+	{
+		$("#loading")
+		.ajaxStart(function(){
+			$(this).show();
+		})
+		.ajaxComplete(function(){
+			$(this).hide();
+		});
+
+		$.ajax
+		(
+			{
+				type: 'POST',
+				url:'index.php?op=submit_subtitle_geturl',
+				dataType: 'json',
+				data: "urlsubtitle="+escape(urlsubtitle)+"&avifilename="+escape(avifilename), 
+				success: function (data, status)
+				{
+					if(typeof(data.error) != 'undefined')
+					{
+						if(data.error != '')
+						{
+							alert(data.error);
+						}else
+						{
+							//alert(data.msg);
+						}
+					}
+				},
+				error: function (data, status, e)
+				{
+					alert(e);
+				}
+			}
+		);
 	}
 	</script>	
 
@@ -183,22 +222,35 @@ $core = core::getInstance();
 
 		<div style="clear:both; margin-left: 120px; ">
 			<h3 style='margin-bottom:0px;'>Ficheiros dos últimos 15 dias que precisam de legendas</h3>
-			<div id='lastmodified'><img src='images/spinner.gif'></img> Loading...</div>
+			<div id='lastmodified'><img src='images/spinner.gif' /> Loading...</div>
 		</div>
 
 		<div id="basicModalContent" style='display:none'>
 			<h1>Upload Legenda</h1>
 			<div id="nome_file">AA</div>
-			
+
 			<p>Selecionar o ficheiro para fazer upload da legenda e carregar no upload</p>
 			<p>Isto *vai* substituir qualquer ficheiro de legenda que ja esteja no sistema! cuidado para nao substituir legendas funcionais!</p>
-			<form id="legenda" enctype="multipart/form-data" method="post" action="">
-				<input type="file" size="40" id="file1" name="file1"/>
-				<input type="button" name="submit" id="submit" value="enviar" onclick="return ajaxFileUpload();" />
-				<input type="hidden" name="filename" id="filename" value="abc"/>
-			</form>
-			<img id="loading" src="images/loading.gif" style="display:none;">
-			<p>Para sacar a legenda que este avi possa ter, seguir este link: <span id='download'></span> </p>
+			<fieldset>
+				<legend>Upload de um ficheiro .srt / .zip</legend>
+				<form id="legenda" enctype="multipart/form-data" method="post" action="">
+					<input type="file" size="40" id="file1" name="file1"/>
+					<input type="button" name="submit" id="submit" value="enviar srt/zip" onclick="return ajaxFileUpload();" />
+					<input type="hidden" name="filename" id="filename" value="abc"/>
+				</form>
+			</fieldset>
+			
+			<fieldset>
+				<legend>Upload a partir de um URL</legend>
+				<p>Sacar legenda por URL: <input type="text" name="urlsubtitle" id="urlsubtitle" style="width: 245px" /> <input type="button" value="obter URL" onclick="return ajaxUrlSubmit( $('#urlsubtitle').val(), $('#filename').val() );"/></p>
+			</fieldset>
+			
+			<fieldset>
+				<legend>Download do ficheiro .srt</legend>
+				<p>Para sacar a legenda que este avi possa ter, seguir este link: <span id='download'></span> </p>
+			</fieldset>	
+			
+			<div id="loading" style="display:none; text-align:center;"><img src="images/loading.gif"> Loading.. Please wait..</div>
 		</div>
 
 	</body>

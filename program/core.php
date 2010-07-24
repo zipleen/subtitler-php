@@ -11,6 +11,11 @@ class core{
 	
 	private $filesystem;
 	private $pasta_selecionada;
+	private $temp_folder;
+	/**
+	 * 
+	 * @var debug
+	 */
 	private $debug;
 	
 	/**
@@ -53,10 +58,17 @@ class core{
 			{
 				if(isSet($opc['dir']) && is_dir($opc['dir']))
 				{
-					if(!isSet($primeira_pasta))
-						$primeira_pasta = $nome;
-					$this->config[$nome]=$opc['dir'];
-					$this->config_nomes[$nome]=$opc['nome'];
+					if(is_readable($opc['dir']))
+					{
+						if(!isSet($primeira_pasta))
+							$primeira_pasta = $nome;
+						$this->config[$nome]=$opc['dir'];
+						$this->config_nomes[$nome]=$opc['nome'];
+					}
+					else
+					{
+						echo "Directorio ".$opc['dir']." nao eh possivel de ser LIDO pelo webserver! configure as permissoes ou mude o user que esta a executar esta pagina! <br/>";
+					}
 				}
 			}
 			$this->debug->logArray("config:",$this->config);	
@@ -85,7 +97,7 @@ class core{
 			$this->debug->log(__METHOD__."() existe a pasta! setting to: ".$_SESSION['pasta']);
 			$this->pasta_selecionada = $_SESSION['pasta'];
 		}
-		else
+		elseif( isSet($primeira_pasta) )
 		{
 			// default!
 			$this->debug->log(__METHOD__."() first time setting pasta! -> ".$primeira_pasta);
@@ -96,6 +108,11 @@ class core{
 		{
 			die("pasta selecionada nao eh valida! verificar config / sessao...");
 		}
+		
+		if(isSet($temp_folder))
+			$this->temp_folder = $temp_folder;
+		else
+			$this->temp_folder = "/tmp";
 		
 		// abrir objectos e inicializa-los
 		include(dirname(__FILE__)."/filesystem.php");
@@ -201,6 +218,7 @@ class core{
 	public function getLastModifiedFilesInHtml()
 	{
 		$html = '';
+		$i = 1;
 		$array = $this->filesystem->getLastModifiedFiles();
 		if(count($array)>0)
 		{
@@ -208,7 +226,9 @@ class core{
 			foreach($array as $f)
 			{
 				if(strpos(strtolower($f), "sample")===false)
-					$html .= "<p><a href='#' onclick='makeDownload(\"$f\")'>".$f."</a></p>";
+					$auto = "";
+					$auto = "<span id='autodownload_$i'>Auto-Download de legendas.tv!</span>";
+					$html .= "<p><a href='#' onclick='makeDownload(\"$f\")'>".$f."</a> $auto</p>";
 					//$html .= "<a href='#' onclick='makeDownload(\"$f\")'>".substr($f, strrpos($f, "/")+1)."</a><br/>";
 			}
 		}
@@ -243,7 +263,12 @@ class core{
 	public function dispatchEvents()
 	{
 		$answer = '';
-		$op = $_REQUEST['op'];
+		if(isSet($_REQUEST['op']))
+			$op = $_REQUEST['op'];
+		else
+			$op = "";
+		$this->debug->logArray("_POST", $_POST);
+		$this->debug->logArray("_REQUEST", $_REQUEST);
 		$this->debug->log(__METHOD__."() action: $op");
 		switch($op)
 		{
@@ -264,12 +289,46 @@ class core{
 				else 
 					$answer = "Erro - falta o filename!";
 				break;
+
+			// sacar um subtitle sacando o URL e depois mandando como se fosse um file!
+			case 'submit_subtitle_geturl':
+				if(isSet($_POST['avifilename']) && isSet($_POST['urlsubtitle']) && preg_match('|^http(s)?://[a-z0-9-]+(.[a-z0-9-]+)*(:[0-9]+)?(/.*)?$|i', $_POST['urlsubtitle']))
+				{
+					$url = $_POST['urlsubtitle'];
+					// saca file
+					include(dirname(__FILE__)."/httpdownload.php");
+					$httpdownload = new httpdownload($this->temp_folder);
+					$filename = $httpdownload->downloadUrl($url);
+					
+					if($filename!==false)
+					{
+						// "fakar" um upload
+						$form_name = "file1";
+						$_FILES = array();
+						$_FILES[$form_name]['size'] = $httpdownload->getLastDownloadedBytes();
+						$_FILES[$form_name]['error'] = 0;
+						$_FILES[$form_name]['name'] = substr($filename, strrpos($filename, "/"));
+						$_FILES[$form_name]['tmp_name'] = $filename;
+						$answer = $this->filesystem->submitFile($_POST['avifilename'], "file1");
+						$httpdownload->cleanup();
+					}
+					else
+					{
+						$answer  = "{ error: 'Erro a sacar o ficheiro do url pedido - mensagem: ".$httpdownload->getErrorMsg()."', msg: ' '}";
+					}
+				}
+				else
+				{
+					$answer = "{ error: 'Erro - nao ha url, ou url nao valido!', msg: ' '}";
+				}
+				break;
 				
 			case 'submit_subtitle':
 				if(isSet($_POST['filename']) && isSet($_FILES['file1']) )
 					$answer = $this->filesystem->submitFile($_POST['filename'], "file1");
 				else
-					$answer = "Erro - nao ha filename ou file!";
+					$answer = "{ error: 'Erro - nao ha filename ou file!', msg: ' '}";
+					//$answer = "Erro - nao ha filename ou file!";
 				break;
 			
 			case 'changedir':
