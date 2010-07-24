@@ -223,11 +223,15 @@ class core{
 		if(count($array)>0)
 		{
 			natcasesort($array);
+			include_once(dirname(__FILE__)."/twitter.php");
+			$twitter = new twitter_legendastv();
 			foreach($array as $f)
 			{
 				if(strpos(strtolower($f), "sample")===false)
 					$auto = "";
-					$auto = "<span id='autodownload_$i'>Auto-Download de legendas.tv!</span>";
+					$srtdownload = $twitter->getUrlForSrt($f);
+					if($srtdownload!=false)
+						$auto = " <span id='autodownload_$i'><a href='#' onclick='helperSubmit(\"".$srtdownload."\",\"".$f."\",\"autodownload_$i\")'> Download legendas.tv srt automaticamente!</a></span>";
 					$html .= "<p><a href='#' onclick='makeDownload(\"$f\")'>".$f."</a> $auto</p>";
 					//$html .= "<a href='#' onclick='makeDownload(\"$f\")'>".substr($f, strrpos($f, "/")+1)."</a><br/>";
 			}
@@ -296,7 +300,7 @@ class core{
 				{
 					$url = $_POST['urlsubtitle'];
 					// saca file
-					include(dirname(__FILE__)."/httpdownload.php");
+					include_once(dirname(__FILE__)."/httpdownload.php");
 					$httpdownload = new httpdownload($this->temp_folder);
 					$filename = $httpdownload->downloadUrl($url);
 					

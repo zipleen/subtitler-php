@@ -47,7 +47,7 @@ class httpdownload
 	 * 
 	 * @param string $url
 	 */
-	private function downloadUrlCurl($url, $post=false)
+	public function downloadUrlCurl($url, $post=false)
 	{
 		$this->debug->log(__METHOD__."() starting download of $url ...");
 		$ch = curl_init($url);
@@ -106,7 +106,7 @@ class httpdownload
 		if(strpos($url, "legendas.tv")!==false)
 		{
 			// eh um legendas.tv, toca a fazer login e retirar o www.
-			$url = str_replace("www.","",$url);
+			$url = str_replace("www.","",$url);	
 			$this->initLegendastv();
 		}
 		

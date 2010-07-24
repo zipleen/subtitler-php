@@ -199,6 +199,38 @@ $core = core::getInstance();
 			}
 		);
 	}
+
+	function helperSubmit(urlsubtitle, avifilename, div)
+	{
+		$.ajax
+		(
+			{
+				type: 'POST',
+				url:'index.php?op=submit_subtitle_geturl',
+				dataType: 'json',
+				data: "urlsubtitle="+escape(urlsubtitle)+"&avifilename="+escape(avifilename), 
+				success: function (data, status)
+				{
+					if(typeof(data.error) != 'undefined')
+					{
+						if(data.error != '')
+						{
+							document.getElementById(div).innerHTML=data.error;
+							alert(data.error);
+						}else
+						{
+							document.getElementById(div).innerHTML=" Download ok!";
+							//alert(data.msg);
+						}
+					}
+				},
+				error: function (data, status, e)
+				{
+					alert(e);
+				}
+			}
+		);
+	}
 	</script>	
 
 	</head>
