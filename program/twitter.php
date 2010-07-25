@@ -40,7 +40,7 @@ class twitter_legendastv{
 					
 					$t = substr($str, 8);
 					$title = trim( substr( $t, 0, stripos($t, "postada:") ) );
-					$this->data[$title] = $url;
+					$this->data[strtolower($title)] = $url;
 				}
 				else
 					$this->debug->log(__METHOD__."() skipped $str...");	
@@ -67,7 +67,7 @@ class twitter_legendastv{
 		
 		// tentar limpar o nome!
 		$delete_names = array(".avi",".[VTV].avi", "/");
-		$name = str_replace($delete_names, "", $name);
+		$name = strtolower(str_replace($delete_names, "", $name));
 		
 		if(isSet($this->data[$name]))
 		{
