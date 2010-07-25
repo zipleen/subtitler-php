@@ -8,76 +8,19 @@ $core = core::getInstance();
 		<title>Legendas para <?=$core->getCurrentName()?></title>
 		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 		
-		<style type="text/css">
-			body,
-			html {
-				padding: 0px;
-				margin: 0px;
-			}
-			body {
-				font-family: Verdana, Arial, Helvetica, sans-serif;
-				font-size: 11px;
-				background: #EEE;
-				padding: 15px;
-			}
-			
-			h1 {
-				font-family: Georgia, serif;
-				font-size: 20px;
-				font-weight: normal;
-				text-align: center;
-			}
-			
-			h2 {
-				font-family: Helvetica,Georgia, serif;
-				font-size: 16px;
-				font-weight: normal;
-				margin: 0px 0px 10px 0px;
-			}
-			
-			.example {
-				float: left;
-				margin-left: 100px;
-				margin-top: 2px;
-			}
-			
-			.demo {
-				width: 600px;
-				height: 400px;
-				border-top: solid 1px #BBB;
-				border-left: solid 1px #BBB;
-				border-bottom: solid 1px #FFF;
-				border-right: solid 1px #FFF;
-				background: #FFF;
-				overflow: scroll;
-				padding: 5px;
-			}
-			
-			p.note {
-				color: #999;
-				clear: both;
-			}
-			
-			lastmodified p {
-				margin-bottom: 0;
-				font-size: 13px; 				
-			}
-		</style>
-		
 		<script src="js/jquery.js" type="text/javascript"></script>
-
 		<script src="js/jquery.easing.js" type="text/javascript"></script>
 		<script src="js/jqueryFileTree.js" type="text/javascript"></script>
 		<script src='js/jquery.simplemodal.js' type='text/javascript'></script>
-		<script type="text/javascript" src="js/ajaxfileupload.js"></script>
+		<script src="js/ajaxfileupload.js" type="text/javascript"></script>
+		
 		<link href="css/jqueryFileTree.css" rel="stylesheet" type="text/css" media="screen" />
 		<link type='text/css' href='css/basic.css' rel='stylesheet' media='screen' />
-		
 
-<!-- IE 6 hacks -->
-<!--[if lt IE 7]>
-<link type='text/css' href='css/basic_ie.css' rel='stylesheet' media='screen' />
-<![endif]-->
+		<!-- IE 6 hacks -->
+		<!--[if lt IE 7]>
+		<link type='text/css' href='css/basic_ie.css' rel='stylesheet' media='screen' />
+		<![endif]-->
 
 		<script type="text/javascript">
 			function makeDownload(file)

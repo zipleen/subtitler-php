@@ -262,7 +262,14 @@ class filesystem{
 					// nao temos o srt!
 					$fi = substr($linha, strlen($this->pasta));
 					$this->debug->log(__METHOD__."() file does not have srt ! adding $fi !");
-					$array[] = $fi;
+					if(strpos($fi, "-sample")===false && strpos($fi, "/tvrecordings/")===false )
+					{
+						$array[] = $fi;
+					}
+					else
+					{
+						$this->debug->log(__METHOD__."() file is a sample, ignoring it...");
+					}
 				}
 			}
 			else

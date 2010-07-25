@@ -231,7 +231,7 @@ class core{
 					$auto = "";
 					$srtdownload = $twitter->getUrlForSrt($f);
 					if($srtdownload!=false)
-						$auto = " <span id='autodownload_$i'><a href='#' onclick='helperSubmit(\"".$srtdownload."\",\"".$f."\",\"autodownload_$i\")'> Download legendas.tv srt automaticamente!</a></span>";
+						$auto = " <span class='autodownload' id='autodownload_$i'><a href='#' onclick='helperSubmit(\"".$srtdownload."\",\"".$f."\",\"autodownload_$i\")'> Download legendas.tv srt automaticamente!</a></span>";
 					$html .= "<p><a href='#' onclick='makeDownload(\"$f\")'>".$f."</a> $auto</p>";
 					//$html .= "<a href='#' onclick='makeDownload(\"$f\")'>".substr($f, strrpos($f, "/")+1)."</a><br/>";
 			}
