@@ -22,13 +22,10 @@ html {
 body {
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 11px;
-	background: #EEE;
-	padding: 15px;
 }
 
 h1 {
-	font-family: Georgia, serif;
-	font-size: 20px;
+	font-family: Arial;
 	font-weight: normal;
 	text-align: center;
 }
@@ -42,8 +39,8 @@ h2 {
 
 .example {
 	float: left;
-	margin-left: 100px;
-	margin-top: 2px;
+	
+	margin-top: 10px;
 }
 
 .demo {
@@ -56,6 +53,13 @@ h2 {
 	background: #FFF;
 	overflow: scroll;
 	padding: 5px;
+}
+
+#lastmodified {
+	width: 600px;
+	height: 400px;
+	overflow: auto;
+	padding: 5px;	
 }
 
 p.note {
@@ -80,3 +84,147 @@ p.note {
 #modalContainer a.modalCloseImg {background:url(../images/x.png) no-repeat; width:25px; height:29px; display:inline; z-index:3200; position:absolute; top:-15px; right:-18px; cursor:pointer;}
 #modalContainer #basicModalContent {padding:8px;}
 #modalContainer #nome_file {font-weight:bold;}
+
+#header {
+		clear:both;
+		float:left;
+		width:100%;
+		border-bottom:2px solid #000;
+		background:#fff;
+	}
+	
+
+	#header h1{
+		padding:0em 15px 0 0px;
+		margin-top:21px;
+		margin-left:none;
+		float: right;
+		color:black;
+		font-size: 1,7em;
+		letter-spacing: 0.05em;
+		position:relative;
+		font-size: 40px;
+		margin-bottom: -20px;
+		
+	}
+	#header h1 span{
+		position:absolute;
+		display:block;
+		top:0;
+		left:0;
+		height:100%;
+		width:100%;
+		background:url(../images/gradient_1.png) repeat-x;
+}
+	#header ul {
+		clear:left;
+		float:left;
+		width:40%;
+		list-style:none;
+		margin:15px 0 0 0;
+		padding:0;
+	}
+	#header ul li {
+		display:inline;
+		list-style:none;
+		margin:0;
+		padding:0;
+	
+	}
+	
+	.button_directorios {	
+		float:left;
+		font-weight:bold;
+		margin:0 3px 0 1px;
+		padding:3px 10px;
+		text-align:center;
+		background:#eee;
+		color:#000;
+		text-decoration:none;
+		position:relative;
+		left:15px;
+		line-height:1.3em;
+		-moz-border-radius-topleft: 15px;
+		-moz-border-radius-topright:15px;
+		-webkit-border-top-left-radius:15px;
+		-webkit-border-top-right-radius:15px; 
+		vertical-align:middle;
+		background:-moz-linear-gradient(59% 17% 286deg, #D2CFD0, #8A8889 100%);
+		background: -webkit-gradient(linear, left top, left bottom, from(#D2CFD0), to(#8A8889));
+	}
+	.icon_folder{
+	margin:4px 0px 2px 0px;
+	vertical-align: middle;
+	border:0px;
+	}
+	#header ul li a 
+	{
+		text-decoration: none;
+		color: #000;
+	}
+	
+	.button_directorios:hover 
+	{
+		background:-moz-linear-gradient(0% 100% 91deg, #403B3B, #AEACA4 100%);
+		background: -webkit-gradient(linear, left bottom, left top, from(#403B3B), to(#AEACA4));
+	}
+	.button_directorios:hover
+	{
+		color:#aaa;
+	}
+	
+	.active,
+	.active:hover {
+		float: left;
+		color:#fff;
+		background:-moz-linear-gradient(0% 100% 90deg, #000000, #424242 100%);
+		background: -webkit-gradient(linear, left bottom, left top, from(#000000), to(#424242));
+		font-weight:bold;
+		-moz-border-radius-topleft: 15px;
+		-moz-border-radius-topright:15px;
+		-webkit-border-top-left-radius:15px;
+		-webkit-border-top-right-radius:15px; 
+	}
+	
+	
+	
+		.colmask {
+		clear:both;
+		float:left;
+		width:100%;			/* width of whole page */
+		overflow:hidden;		/* This chops off any overhanging divs */
+		background:-moz-linear-gradient(59% 17% 286deg, #D2CFD0, #8A8889 100%);
+	background: -webkit-gradient(linear, left top, left bottom, from(#D2CFD0), to(#8A8889));
+	}
+	
+	/* common column settings */
+	.colright,
+	.colmid,
+	.colleft {
+		float:left;
+		width:100%;
+		position:relative;
+		}
+	.col1,
+	.col2,
+	.col3 {
+		float:left;
+		position:relative;
+		padding:0 0 1em 0;
+		overflow:hidden;
+	}
+	/* 2 Column (double page) settings */
+	.doublepage {
+	float:right;
+	}
+	.doublepage .colleft {
+		right:50%;			/* right column width */
+	}
+	.doublepage .col1 {
+		width:46%;			/* left column content width (column width minus left and right padding) */
+		left:52%;			/* right column width plus left column left padding */
+	}
+	.doublepage .col2 {
+		width:46%;			/* right column content width (column width minus left and right padding) */
+		left:56%;			/* (right column width) plus (left column left and right padding) plus (right column left padding) */
+	}

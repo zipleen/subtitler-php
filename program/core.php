@@ -7,6 +7,7 @@
 class core{
 	private $config = array();
 	private $config_nomes = array();
+	private $config_pics = array();
 	private $supported_files = array('mkv','avi');
 	
 	private $filesystem;
@@ -64,6 +65,14 @@ class core{
 							$primeira_pasta = $nome;
 						$this->config[$nome]=$opc['dir'];
 						$this->config_nomes[$nome]=$opc['nome'];
+						if(isSet($opc['pic']))
+						{
+							$this->config_pics[$nome]=$opc['pic'];
+						}
+						else
+						{
+							$this->config_pics[$nome]='';
+						}
 					}
 					else
 					{
@@ -73,6 +82,7 @@ class core{
 			}
 			$this->debug->logArray("config:",$this->config);	
 			$this->debug->logArray("config names:",$this->config_nomes);	
+			$this->debug->logArray("config pics:",$this->config_pics);	
 		}
 		else
 		{
@@ -134,21 +144,38 @@ class core{
 		return $this->config_nomes[$this->pasta_selecionada];
 	}
 	
+	public function getBrowserMode()
+	{
+		if (strstr($_SERVER['HTTP_USER_AGENT'], "iPhone")) {
+		    return "iphone";
+		}
+		if (strstr($_SERVER['HTTP_USER_AGENT'], "iOS")) {
+		    return "ios";
+		}
+		return "desktop";
+	}
+	
 	/**
 	 * devolve <a href='link'>directoria</a> o array 
 	 * 
 	 * @param string $separator - string que separa os links
 	 * @return array
 	 */
-	public function getLinksForDirectories($separator=" ")
+	public function getLinksForDirectories($separator=" ", $before_html = "", $after_html = "")
 	{
 		$html = "";
 		foreach($this->config_nomes as $tipo=>$nome)
 		{
+			$pic = '';
+			if( $this->config_pics[$tipo]!="" )
+			{
+				$this->debug->log(__METHOD__." Metendo pic  - ".$this->config_pics[$tipo]);
+				$pic = "<img class='icon_folder' src='".$this->config_pics[$tipo]."' title='$tipo'> ";
+			}
 			if($tipo==$this->pasta_selecionada)
-				$html .= "<span class='active'>$nome</span>".$separator;
+				$html .= $before_html."<span class='button_directorios active'>".$pic.$nome."</span>".$separator.$after_html;
 			else
-				$html .= "<a href='index.php?op=changedir&pasta=$tipo'>$nome</a>".$separator;
+				$html .= $before_html."<a class='button_directorios' href='index.php?op=changedir&pasta=$tipo'>".$pic.$nome."</a>".$separator.$after_html;
 		}
 		return $html;
 	}
@@ -261,6 +288,17 @@ class core{
 		echo $html;
 	}
 	
+	private function renderPage()
+	{
+		$browser = $this->getBrowserMode();
+		if(is_file(dirname(__FILE__)."/../config/template_$browser.php"))
+		{
+			include(dirname(__FILE__)."/../config/template_$browser.php");
+		}
+		else
+			include(dirname(__FILE__)."/../config/template.php");
+	}
+	
 	/**
 	 * mesmo metodo que o lv2 :D aqui eh onde as coisas vao ser processadas
 	 */
@@ -342,7 +380,7 @@ class core{
 			default:
 				// mostrar a pagina
 				ob_start();
-				include(dirname(__FILE__)."/../config/template.php");
+				$this->renderPage();
 				$answer = ob_get_contents();
 				ob_end_clean();
 				

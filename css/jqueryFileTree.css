@@ -1,7 +1,7 @@
 UL.jqueryFileTree {
 	font-family: Verdana, sans-serif;
-	font-size: 11px;
-	line-height: 18px;
+	font-size: 14px;
+	line-height: 22px;
 	padding: 0px;
 	margin: 0px;
 }
@@ -18,7 +18,19 @@ UL.jqueryFileTree A {
 	color: #333;
 	text-decoration: none;
 	display: block;
-	padding: 0px 2px;
+	padding: 0px 5px;
+	-moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright:5px;
+    -moz-border-radius-bottomleft:5px;
+    -moz-border-radius-bottomright:5px;
+    -webkit-border-top-left-radius:5px;
+    -webkit-border-top-right-radius:5px;
+    -webkit-border-bottom-left-radius:5px;
+    -webkit-border-bottom-right-radius:5px;
+    border-top-left-radius:5px;
+    border-top-right-radius:5px;
+    border-bottom-left-radius:5px;
+    border-bottom-right-radius:5px;
 }
 
 UL.jqueryFileTree A:hover {
@@ -26,26 +38,63 @@ UL.jqueryFileTree A:hover {
 }
 
 /* Core Styles */
-.jqueryFileTree LI.directory { background: url(../images/directory.png) left top no-repeat; }
-.jqueryFileTree LI.expanded { background: url(../images/folder_open.png) left top no-repeat; }
-.jqueryFileTree LI.file { background: url(../images/file.png) left top no-repeat; }
-.jqueryFileTree LI.wait { background: url(../images/spinner.gif) left top no-repeat; }
+.jqueryFileTree LI.directory { background: url(../images/directory.png) left 3px no-repeat; }
+.jqueryFileTree LI.expanded { background: url(../images/folder_open.png) left 3px no-repeat; }
+.jqueryFileTree LI.file { background: url(../images/file.png) left center no-repeat; }
+.jqueryFileTree LI.wait { background: url(../images/spinner.gif) left center no-repeat; }
 /* File Extensions*/
-.jqueryFileTree LI.ext_3gp { background: url(../images/mpg.png) left top no-repeat; }
+.jqueryFileTree LI.ext_3gp { background: url(../images/mpg.png) left center no-repeat; }
 
-.jqueryFileTree LI.ext_avi { background: url(../images/film.png) left top no-repeat; }
-.jqueryFileTree LI.ext_m4p { background: url(../images/mpg.png) left top no-repeat; }
-.jqueryFileTree LI.ext_mov { background: url(../images/mpg.png) left top no-repeat; }
-.jqueryFileTree LI.ext_mp4 { background: url(../images/mpg.png) left top no-repeat; }
-.jqueryFileTree LI.ext_mpg { background: url(../images/mpg.png) left top no-repeat; }
-.jqueryFileTree LI.ext_mpeg { background: url(../images/mpg.png) left top no-repeat; }
-.jqueryFileTree LI.ext_mkv { background: url(../images/mkv.png) left top no-repeat; }
+.jqueryFileTree LI.ext_avi { background: url(../images/film.png) left center no-repeat; }
+.jqueryFileTree LI.ext_m4p { background: url(../images/mpg.png) left center no-repeat; }
+.jqueryFileTree LI.ext_mov { background: url(../images/mpg.png) left center no-repeat; }
+.jqueryFileTree LI.ext_mp4 { background: url(../images/mpg.png) left center no-repeat; }
+.jqueryFileTree LI.ext_mpg { background: url(../images/mpg.png) left center no-repeat; }
+.jqueryFileTree LI.ext_mpeg { background: url(../images/mpg.png) left center no-repeat; }
+.jqueryFileTree LI.ext_mkv { background: url(../images/mkv.png) left center no-repeat; }
 
 .jqueryFileTree LI.n_tem A {
-	background: #FF3333;
+	background:-moz-linear-gradient(13% 0% 286deg,#FF3030, #8B1A1A  100%);
+	background: -webkit-gradient(linear, left top, right top, from(#FF3030), to(#8B1A1A));
 	color:white;
+	-moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright:5px;
+    -moz-border-radius-bottomleft:5px;
+    -moz-border-radius-bottomright:5px;
+    -webkit-border-top-left-radius:5px;
+    -webkit-border-top-right-radius:5px;
+    -webkit-border-bottom-left-radius:5px;
+    -webkit-border-bottom-right-radius:5px;
+    border-top-left-radius:5px;
+    border-top-right-radius:5px;
+    border-bottom-left-radius:5px;
+    border-bottom-right-radius:5px;
+    margin-bottom:2px;
+    font-size: 
+}
+.jqueryFileTree LI.n_tem A:hover {
+	background:-moz-linear-gradient(13% 0% 286deg,#8B2323, #8B1A1A  100%);
+	background: -webkit-gradient(linear, left top, right top, from(#FF3030), to(#8B1A1A));
 }
 
 .jqueryFileTree LI.tem A {
-	background: #00FF66;
+	background:-moz-linear-gradient(13% 0% 286deg,#32CD32 , #006400  100%);
+	background: -webkit-gradient(linear, left top, right top, from(#32CD32), to(#006400));
+	-moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright:5px;
+    -moz-border-radius-bottomleft:5px;
+    -moz-border-radius-bottomright:5px;
+    -webkit-border-top-left-radius:5px;
+    -webkit-border-top-right-radius:5px;
+    -webkit-border-bottom-left-radius:5px;
+    -webkit-border-bottom-right-radius:5px;
+    border-top-left-radius:5px;
+    border-top-right-radius:5px;
+    border-bottom-left-radius:5px;
+    border-bottom-right-radius:5px;
+    margin-bottom:2px;
+}
+.jqueryFileTree LI.tem A:hover {
+	background:-moz-linear-gradient(13% 0% 286deg,#008B00 , #006400  100%);
+	background: -webkit-gradient(linear, left top, right top, from(#32CD32), to(#006400));
 }

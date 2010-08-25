@@ -7,6 +7,8 @@ $core = core::getInstance();
 	<head>
 		<title>Legendas para <?=$core->getCurrentName()?></title>
 		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+		<meta name="HandheldFriendly" content="true" />
+		<meta name="Viewport" content="width=device-width" />
 		
 		<script src="js/jquery.js" type="text/javascript"></script>
 		<script src="js/jquery.easing.js" type="text/javascript"></script>
@@ -16,11 +18,6 @@ $core = core::getInstance();
 		
 		<link href="css/jqueryFileTree.css" rel="stylesheet" type="text/css" media="screen" />
 		<link type='text/css' href='css/basic.css' rel='stylesheet' media='screen' />
-
-		<!-- IE 6 hacks -->
-		<!--[if lt IE 7]>
-		<link type='text/css' href='css/basic_ie.css' rel='stylesheet' media='screen' />
-		<![endif]-->
 
 		<script type="text/javascript">
 			function makeDownload(file)
@@ -161,40 +158,28 @@ $core = core::getInstance();
 		);
 	}
 
-	 function resizeDivs() 
-	 {  
-		 $(".demo").css("height", (window.innerHeight - 92) + "px");
-		 $(".demo").css("width", (window.innerWidth / 2 - 85) + "px");
-
-		 $("#lastmodified").css("height", (window.innerHeight - 114) + "px");
-		 $("#lastmodified").css("width", (window.innerWidth / 2 - 85) + "px");
-	 }
+	
 	</script>	
 
 	</head>
 	
-	<body onload="resizeDivs()" onresize="resizeDivs()">
+	<body>
 		<div id="header">	
-			<h1><?=$core->getCurrentName()?> - Legendas<span></span></h1>
+			
 			<ul> <?=$core->getLinksForDirectories(" ", "<li>", "</li>")?></ul>
 		</div>
 		
-		<div class="colmask doublepage">
-			<div class="colleft">
-				<div class="col1">
+		
 					<div class="example">
 						<div id="fileTreeDemo_1" class="demo"></div>
 						</div>
 					</div>
-
-				<div class="col2">			
-					<div>
-						<h3 style='margin-bottom:4px;'>Ficheiros dos últimos 15 dias que precisam de legendas</h3>
+						
+					<div style="clear:both; margin-left: 120px; ">
+						<h3 style='margin-bottom:0px;'>Ficheiros dos últimos 15 dias que precisam de legendas</h3>
 						<div id='lastmodified'><img src='images/spinner.gif' /> Loading...</div>
 					</div>
-				</div>
-			</div>
-		</div>
+				
 		<div id="basicModalContent" style='display:none'>
 			<h1>Upload Legenda</h1>
 			<div id="nome_file">AA</div>
