@@ -163,11 +163,16 @@ $core = core::getInstance();
 
 	 function resizeDivs() 
 	 {  
-		 $(".demo").css("height", (window.innerHeight - 92) + "px");
+		 $(".demo").css("height", (window.innerHeight - 82) + "px");
 		 $(".demo").css("width", (window.innerWidth / 2 - 85) + "px");
 
-		 $("#lastmodified").css("height", (window.innerHeight - 114) + "px");
+		 $("#lastmodified").css("height", (window.innerHeight - 104) + "px");
 		 $("#lastmodified").css("width", (window.innerWidth / 2 - 85) + "px");
+
+		 if(window.innerWidth<800)
+			 $("#header h1").css("display","none");
+		else
+			$("#header h1").css("display","block");	 
 	 }
 	</script>	
 

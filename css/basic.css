@@ -96,7 +96,7 @@ p.note {
 
 	#header h1{
 		padding:0em 15px 0 0px;
-		margin-top:21px;
+		margin-top:11px;
 		margin-left:none;
 		float: right;
 		color:black;
@@ -120,7 +120,7 @@ p.note {
 		clear:left;
 		float:left;
 		list-style:none;
-		margin:15px 0 0 0;
+		margin:5px 0 0 0;
 		padding:0;
 	}
 	#header ul li {
