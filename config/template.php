@@ -169,10 +169,19 @@ $core = core::getInstance();
 		 $("#lastmodified").css("height", (window.innerHeight - 104) + "px");
 		 $("#lastmodified").css("width", (window.innerWidth / 2 - 85) + "px");
 
-		 if(window.innerWidth<800)
+		 if(window.innerWidth<900)
+		 {	 
 			 $("#header h1").css("display","none");
-		else
-			$("#header h1").css("display","block");	 
+			 $(".col2").css("clear","left");
+			 $(".demo").css("width", (window.innerWidth - 85) + "px");
+			 $(".col1").css("width", "100%");
+		 }
+		 else
+		 {
+			$("#header h1").css("display","block");
+			$(".col2").css("clear","none");
+			$(".col1").css("width", "46%");
+		 }	 
 	 }
 	</script>	
 
