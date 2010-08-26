@@ -93,6 +93,7 @@ UL.jqueryFileTree A:hover {
     border-bottom-left-radius:5px;
     border-bottom-right-radius:5px;
     margin-bottom:2px;
+    color:white;
 }
 .jqueryFileTree LI.tem A:hover {
 	background:-moz-linear-gradient(13% 0% 286deg,#008B00 , #006400  100%);
