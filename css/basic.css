@@ -80,9 +80,42 @@ p.note {
 #modalOverlay {background-color:#000; cursor:wait;}
 
 /* Container */
-#modalContainer {height:400px; width:500px; left:50%; top:15%; margin-left:-200px; background-color:#fff; border:3px solid #ccc;}
-#modalContainer a.modalCloseImg {background:url(../images/x.png) no-repeat; width:25px; height:29px; display:inline; z-index:3200; position:absolute; top:-15px; right:-18px; cursor:pointer;}
-#modalContainer #basicModalContent {padding:8px;}
+#modalContainer {
+	height:400px; 
+	width:655px; 
+	left:50%; 
+	top:15%; 
+	margin-left:-300px; 
+	background-color:#fff;
+	border:2px hidden #000;
+	background:-moz-linear-gradient(59% 17% 286deg, #D2CFD0, #F4F4F4 100%);
+	background: -webkit-gradient(linear, left top, left bottom, from(#D2CFD0), to(#F4F4F4));
+	-moz-border-radius-topleft: 15px;
+	-moz-border-radius-topright: 15px;
+    -moz-border-radius-bottomleft:15px;
+    -moz-border-radius-bottomright:15px;
+    -webkit-border-top-left-radius:15px;
+   	-webkit-border-top-right-radius: 15px;
+    -webkit-border-bottom-left-radius:15px;
+    -webkit-border-bottom-right-radius:15px;
+    border-top-left-radius:15px;
+    border-top-right-radius:15px;
+    border-bottom-left-radius:15px;
+    border-bottom-right-radius:15px;
+	}
+#modalContainer a.modalCloseImg {
+	background:url(../images/x.png) no-repeat; 
+	width:25px; 
+	height:29px; 
+	display:inline; 
+	z-index:3200; 
+	position:absolute; 
+	top:5px; 
+	right:5px; 
+	cursor:pointer;}
+#modalContainer #basicModalContent {
+	padding:8px;
+	}
 #modalContainer #nome_file {font-weight:bold;}
 
 #header {
@@ -105,6 +138,8 @@ p.note {
 		position:relative;
 		font-size: 40px;
 		margin-bottom: -20px;
+		-webkit-font-smoothing: antialiased;
+
 		
 	}
 	#header h1 span{
@@ -146,13 +181,15 @@ p.note {
 		-moz-border-radius-topleft: 15px;
 		-moz-border-radius-topright:15px;
 		-webkit-border-top-left-radius:15px;
-		-webkit-border-top-right-radius:15px; 
+		-webkit-border-top-right-radius:15px;
 		vertical-align:middle;
-		background:-moz-linear-gradient(59% 17% 286deg, #D2CFD0, #8A8889 100%);
-		background: -webkit-gradient(linear, left top, left bottom, from(#D2CFD0), to(#8A8889));
+		background:-moz-linear-gradient(59% 17% 286deg, #D2CFD0, #9C9C9C 100%);
+		background: -webkit-gradient(linear, left top, left bottom, from(#D2CFD0), to(#9C9C9C));
 	}
 	.icon_folder{
 	margin:4px 0px 2px 0px;
+	height:30px;
+	width:30px;
 	vertical-align: middle;
 	border:0px;
 	}
@@ -164,7 +201,7 @@ p.note {
 	
 	.button_directorios:hover 
 	{
-		background:-moz-linear-gradient(0% 100% 91deg, #403B3B, #AEACA4 100%);
+		background:-moz-linear-gradient(0% 100% 91deg, #403B3B, #403B3B 100%);
 		background: -webkit-gradient(linear, left bottom, left top, from(#403B3B), to(#AEACA4));
 	}
 	.button_directorios:hover
@@ -227,3 +264,30 @@ p.note {
 		width:46%;			/* right column content width (column width minus left and right padding) */
 		left:56%;			/* (right column width) plus (left column left and right padding) plus (right column left padding) */
 	}
+	
+	#modalheader {
+	border-bottom:2px solid #000;
+	background:-moz-linear-gradient(0% 0% 270deg, #777, #323232 100%);
+	background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#777), to(#323232));
+	margin:-24px -8px 20px;
+	-moz-border-radius-topleft: 15px;
+	-moz-border-radius-topright: 15px;
+	-webkit-border-radius-topleft:15px;
+   	-webkit-border-radius-topright: 15px;
+    border-top-left-radius:15px;
+    border-top-right-radius:15px;
+   	padding: 10px;
+	}
+	
+	#modalheader h1 {
+	letter-spacing: 0.05em;
+	position:relative;
+	color:#fff;
+	font-size: 22px;
+	font-weight: bold;
+	margin: 0px 0px 6px;
+	text-shadow: #333 0px 1px 3px;
+			
+	}
+	
+	

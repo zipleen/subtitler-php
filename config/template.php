@@ -13,9 +13,11 @@ $core = core::getInstance();
 		<script src="js/jqueryFileTree.js" type="text/javascript"></script>
 		<script src='js/jquery.simplemodal.js' type='text/javascript'></script>
 		<script src="js/ajaxfileupload.js" type="text/javascript"></script>
+		<script src="js/jquery.tabs.min.js" type="text/javascript"></script>
 		
 		<link href="css/jqueryFileTree.css" rel="stylesheet" type="text/css" media="screen" />
 		<link type='text/css' href='css/basic.css' rel='stylesheet' media='screen' />
+<link rel="stylesheet" href="css/jquery.tabs.css" type="text/css" media="print, projection, screen">
 
 		<!-- IE 6 hacks -->
 		<!--[if lt IE 7]>
@@ -210,11 +212,41 @@ $core = core::getInstance();
 			</div>
 		</div>
 		<div id="basicModalContent" style='display:none'>
+			<div id="modalheader">
 			<h1>Upload Legenda</h1>
+			</div>
 			<div id="nome_file">AA</div>
 
-			<p>Selecionar o ficheiro para fazer upload da legenda e carregar no upload</p>
-			<p>Isto *vai* substituir qualquer ficheiro de legenda que ja esteja no sistema! cuidado para nao substituir legendas funcionais!</p>
+			<p>Isto <b>vai</b> substituir qualquer ficheiro de legenda que ja esteja no sistema!</p> 
+			<p>Cuidado para nao substituir legendas funcionais!</p>
+			<div id="container-1">
+            <ul>
+                <li><a href="#fragment-1"><span>Upload de um ficheiro .srt / .zip</span></a></li>
+                <li><a href="#fragment-2"><span>Upload a partir de um URL</span></a></li>
+
+                <li><a href="#fragment-3"><span>Download do ficheiro .srt</span></a></li>
+            </ul>
+            <div id="fragment-1">
+            	<p>Selecionar o ficheiro para fazer upload da legenda e carregar no upload</p>
+            	 <form id="legenda" enctype="multipart/form-data" method="post" action="">
+					<input type="file" size="40" id="file1" name="file1"/>
+					<input type="button" name="submit" id="submit" value="enviar srt/zip" onclick="return ajaxFileUpload();" />
+					<input type="hidden" name="filename" id="filename" value="abc"/>
+				</form>
+            </div>
+
+            <div id="fragment-2">
+               <p>Sacar legenda por URL: <input type="text" name="urlsubtitle" id="urlsubtitle" style="width: 245px" /> <input type="button" value="obter URL" onclick="return ajaxUrlSubmit( $('#urlsubtitle').val(), $('#filename').val() );"/></p>
+            </div>
+            <div id="fragment-3">
+              
+				<p>Para sacar a legenda que este avi possa ter, seguir este link: <span id='download'></span> </p>
+            </div>
+        </div>
+			<script type="text/javascript">
+			$('#container-1').tabs();
+			</script>
+			<!--  
 			<fieldset>
 				<legend>Upload de um ficheiro .srt / .zip</legend>
 				<form id="legenda" enctype="multipart/form-data" method="post" action="">
@@ -233,7 +265,7 @@ $core = core::getInstance();
 				<legend>Download do ficheiro .srt</legend>
 				<p>Para sacar a legenda que este avi possa ter, seguir este link: <span id='download'></span> </p>
 			</fieldset>	
-			
+			-->
 			<div id="loading" style="display:none; text-align:center;"><img src="images/loading.gif"> Loading.. Please wait..</div>
 		</div>
 
