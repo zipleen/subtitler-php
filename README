@@ -1,0 +1,16 @@
+Subtitler for Apache in PHP
+---------------------------
+
+This is a little PHP project that I built to do a specific purpose: write
+the .srt files to the respective folder, from a website.
+
+I had a crude version of this with some simple command lines, but I decide
+to complicate this ten fold because of two things:
+- write a simple OO PHP project to teach OO programming
+- to teach simple HTML / JS / CSS to my brother
+
+This became extinct when the subtitles downloader for XBMC started to work
+for my sites, but it's still usefull when that doesn't work.
+
+Sorry for the portuguese comments in the log, i'm trying to play with
+svn2git =)
