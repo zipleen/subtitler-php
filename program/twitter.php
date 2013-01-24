@@ -45,7 +45,7 @@ class twitter_legendastv{
 				else
 					$this->debug->log(__METHOD__."() skipped $str...");	
 			}
-			$this->debug->logArray(__METHOD__."() twitter data in memory", $this->data);
+			//$this->debug->logArray(__METHOD__."() twitter data in memory", $this->data);
 			return true;
 		}
 		else 

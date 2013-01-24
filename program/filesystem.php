@@ -9,6 +9,7 @@ class filesystem{
 	
 	private $debug;
 	private $pasta;
+	private $languageArray = array('', 'pt.', 'en.', 'pt-br.');
 	
 	/**
 	 * quanto este objecto eh criado, temos logo a pasta onde isto vai servir de base
@@ -85,6 +86,15 @@ class filesystem{
 			if($from!==false && rename($from, $to))
 			{
 				chmod($to, 0775);
+				// delete other subtitle files!
+				foreach($this->languageArray as $lang) {
+					if($lang!="") {
+						$subtitle = substr($to, 0, -3 ) . $lang . "srt";
+						if( is_file($subtitle) ) {
+							unlink($subtitle);
+						}
+					}
+				}
 				$this->debug->log(__METHOD__."() Consegui escrever o file para $to!");
 			}
 			else
@@ -170,7 +180,7 @@ class filesystem{
 		
 		if( file_exists($this->pasta . $subtitle) ) 
 		{
-			$dl = &new HTTP_Download();
+			$dl = new HTTP_Download();
 			$dl->setFile($this->pasta . $subtitle);
 			$dl->send();
 		}
@@ -218,10 +228,18 @@ class filesystem{
 						$ext = preg_replace('/^.*\./', '', $file);
 						if( in_array(strtolower($ext), $this->supported_files) )
 						{
-							$subtitle = substr($file,0,-3)."srt";
-							if(is_file($this->pasta . $dir . $subtitle))
-								$subtitle_existe = "tem";
-							else $subtitle_existe = "n_tem";
+							$subtitle_existe = "";
+							foreach($this->languageArray as $lang) {
+								$subtitle = substr($file, 0, (strlen($ext)*-1) ) . $lang . "srt";
+								if( is_file($this->pasta . $dir . $subtitle) ) {
+									$subtitle_existe = "tem";
+									break;
+								}
+							}
+							if( $subtitle_existe == "" ) {
+								$subtitle_existe = "n_tem";
+							}
+							
 							$array = array();
 							$array['tipo'] = "file";
 							$array['class'] = "file ext_$ext $subtitle_existe";
